@@ -25,6 +25,17 @@ def stInputMin(input, min_value):
         input = min_value
     return input
 
+
 # - Standardize sigmoid:
 def sigmoid(input):
 	return 1/(1 + np.exp(-input))
+
+
+# - Normalize input data:
+def normalize(array):
+	return = (array - array.mean()) / array.std()
+
+
+
+
+
