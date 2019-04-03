@@ -1,2 +1,2 @@
 # TCRS_NeuralNet_Tools
-Tool for my neural network design
+Tool used for my neural network design
