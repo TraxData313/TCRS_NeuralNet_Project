@@ -1,0 +1,26 @@
+# - Standard covarriance of X1 and X2:
+def COV(X1,EX1,X2,EX2):
+    COV = (X1-EX1)*(X2-EX2)
+    return COV
+    
+    
+# - Moving average:
+def movingAverage(old_value, new_value, resistance):
+    result = (old_value*resistance+new_value)/(resistance+1)
+    return result
+    
+
+# - Standardize input (min < input < max):
+def stInputMinMax(input, min_value, max_value):
+    if input < min_value:
+        input = min_value
+    elif input > max_value:
+        input = max_value
+    return input
+    
+    
+# - Standardize input (min < input):
+def stInputMin(input, min_value):
+    if input < min_value:
+        input = min_value
+    return input
