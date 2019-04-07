@@ -1,11 +1,11 @@
     
 # - Normalize input data (stdiv):
 def normalizeStd(array):
-	return = (array - array.mean()) / array.std()
+	return (array - array.mean()) / array.std()
     
 # - Normalize input data (min-max):
 def normalizeMinMax(array):
-	return = (array - array.mean()) / (max(array) - min(array))
+	return (array - array.mean()) / (max(array) - min(array))
 
 
 
@@ -68,3 +68,8 @@ def cross_entropy(T, Y):
         else:
             E -= np.log(1 - Y[i])
     return E
+
+    
+def println(lines):
+    for n in range(lines):
+        print(" ")
