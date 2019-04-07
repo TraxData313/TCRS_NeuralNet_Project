@@ -16,23 +16,28 @@ min_PF: min prob of fire
 
 Matrices:
 LL_matrices: layer to layer connections
-LO_matrices: layer to output connections
+LO_matrices: layer to output connections (SP system)
 # Weight[row][col]
 # row -> source
 # col -> target
+
+Passed tests:
+- Simple input  -> output relations
+
+Still to pass:
+- Varying input -> output relations | stucks on 0 or 1
+- tictactoe, not tested
 '''
 
 
 def resist_factor(list_numb,resist_factor_kind):
     # - decreasing resist:
-    if resist_factor_kind == 1:
-        resistance = 100 - list_numb*10
+    if resist_factor_kind == 1:   # decreasing resist 
+        resistance = 10 - list_numb*1
+    elif resist_factor_kind == 0: # static resist 
+        resistance = 100
     return resistance
         
-
-
-
-
 
 ################
 # Class Network:
@@ -51,9 +56,9 @@ class Network:
         self.output_size       = output_size
         self.hidden_count      = hidden_count
         # - Parameters:
-        self.starting_resist   = 5      # Cell change min resistance
+        self.weight            = 2      # 0:(+=COV), 1:(mAve), 2:(X*F)
         self.max_resist        = 100    # Cell change max resistance
-        self.min_PF            = 300    # PF/1000
+        self.min_PF            = 10     # PF/1000
         self.max_PF            = 990    # PF/1000
         self.step_PF           = 10     # Increase of PF/1000
         # - Cell properties in Arrays: F, PF, EF, X, EX, R, min_PF:
@@ -71,11 +76,15 @@ class Network:
                 temp_size = self.output_size
             else:
                 temp_size = self.hidden_size
-            temp_list = np.zeros(temp_size)
+            temp_list = np.zeros(temp_size) #
             self.F_arrays_list.append(temp_list)
+            temp_list = np.zeros(temp_size) #
             self.PF_arrays_list.append(temp_list)
+            temp_list = np.zeros(temp_size) #
             self.EF_arrays_list.append(temp_list)
+            temp_list = np.zeros(temp_size) #
             self.X_arrays_list.append(temp_list)
+            temp_list = np.zeros(temp_size) #
             self.EX_arrays_list.append(temp_list)
             # -- Resist:
             temp_list = []
@@ -103,7 +112,8 @@ class Network:
             else:
                 temp_LL_in_size  = self.hidden_size
                 temp_LL_out_size = self.hidden_size
-            temp_matrix = np.zeros((temp_LL_in_size, temp_LL_out_size))
+            temp_matrix = np.random.randint(-20, high=20, size=(temp_LL_in_size, temp_LL_out_size))
+            temp_matrix = temp_matrix/100.
             self.LL_matrices_list.append(temp_matrix)
             # -- Create the LO matrices:
             if list_numb == 0:
@@ -112,7 +122,8 @@ class Network:
             else:
                 temp_LO_in_size  = self.hidden_size
                 temp_LO_out_size = self.output_size
-            temp_matrix = np.zeros((temp_LO_in_size, temp_LO_out_size))
+            temp_matrix = np.random.randint(-20, high=20, size=(temp_LO_in_size, temp_LO_out_size))
+            temp_matrix = temp_matrix/100.
             self.LO_matrices_list.append(temp_matrix)  
     # END INIT
     ##########
@@ -122,9 +133,6 @@ class Network:
     # INPUT AND UPDATE:
     def inputAndUpdate(self, input_array):
         for list_numb in range(self.hidden_count+2):
-            print(" ")
-            print("LIST:", list_numb)
-            
             # - reset Fs:
             for cell_numb in range(len(self.F_arrays_list[list_numb])):
                 self.F_arrays_list[list_numb][cell_numb] = 0.
@@ -137,7 +145,7 @@ class Network:
             # - if hidden or input layer:
             if list_numb != self.hidden_count+1:
                 for cell_numb in range(len(self.PF_arrays_list[list_numb])):
-                    # -- bound normalize PFs:
+                    # -- bound normalize PFs (min < PF < max):
                     PF = self.PF_arrays_list[list_numb][cell_numb]*1000
                     min_value = self.min_PF_arrays_list[list_numb][cell_numb]
                     max_value = self.max_PF
@@ -153,6 +161,14 @@ class Network:
                         self.F_arrays_list[list_numb][cell_numb] = 0
                         # -- if !fired -> min_PF += step_PF :
                         self.min_PF_arrays_list[list_numb][cell_numb] += self.step_PF  
+                        
+            # - bound normalize PFs for output (min < OF):
+            if list_numb == self.hidden_count+1:
+                for cell_numb in range(len(self.PF_arrays_list[list_numb])):
+                    PF = self.PF_arrays_list[list_numb][cell_numb]*1000
+                    min_value = self.min_PF_arrays_list[list_numb][cell_numb]
+                    PF = utils.boundInputMin(PF, min_value)
+                    self.PF_arrays_list[list_numb][cell_numb] = PF/1000.
                 
             # - Run LL connections PF(n+1) = F(n) * LL : 
             if list_numb < self.hidden_count:
@@ -167,7 +183,7 @@ class Network:
                 F  = self.F_arrays_list[list_numb]
                 LO = self.LO_matrices_list[list_numb]
                 PF = np.dot(F, LO)
-                self.PF_arrays_list[self.hidden_count+1] += PF # need to test this!
+                self.PF_arrays_list[self.hidden_count+1] += PF 
                 
             # - if output layer -> provide the output O(PF)
             if list_numb == self.hidden_count+1:
@@ -204,16 +220,88 @@ class Network:
     
     ###########
     # FEEDBACK:
-    def feedback(self):
-        # - Calculate X  = F * feedback
-        # - Calculate EX = movingAverage(X)
-        # - For every connection:
-        # -- Recover the source and target
-        # -- weight = movingAverage(COV) | COV1 = (X-EX)*(F-EF) , COV2 = (X)*(F-EF)
-        pass
+    def feedback(self, feedback):
+        # - X and EX:
+        for list_numb in range(self.hidden_count+1):
+            for cell_numb in range(len(self.X_arrays_list[list_numb])):
+                # - Calculate X  = F * feedback
+                self.X_arrays_list[list_numb][cell_numb] = self.F_arrays_list[list_numb][cell_numb]*feedback
+                # - Calculate EX = movingAverage(X)
+                old_value  = self.EX_arrays_list[list_numb][cell_numb]
+                new_value  = self.X_arrays_list[list_numb][cell_numb]
+                resistance = self.R_arrays_list[list_numb][cell_numb]
+                EX = utils.movingAverage(old_value, new_value, resistance)
+                self.EX_arrays_list[list_numb][cell_numb] = EX
     
+        # - LL connections:
+        for list_numb in range(self.hidden_count):
+            for row in range(len(self.LL_matrices_list[list_numb])):
+                for col in range(len(self.LL_matrices_list[list_numb][row])):
+                    
+                    # - COV(X,EX,F,EF) | X-source, F-target:
+                    X  = self.X_arrays_list[list_numb][row]
+                    EX = self.EX_arrays_list[list_numb][row]
+                    F  = self.F_arrays_list[list_numb+1][col]
+                    EF = self.EF_arrays_list[list_numb+1][col]
+                    COV_ = utils.COV(X,EX,F,EF)
+                
+                    if self.weight ==0:
+                        # - weight += COV_:
+                        self.LL_matrices_list[list_numb][row][col] += COV_
+                    
+                    elif self.weight == 1:
+                        # - weithg = movingAverage(COV_)
+                        old_value  = self.LL_matrices_list[list_numb][row][col]
+                        new_value  = COV_
+                        resistance = self.R_arrays_list[list_numb][row]
+                        self.LL_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)
+
+                    elif self.weight == 2:
+                        # - weight = X*F:
+                        self.LL_matrices_list[list_numb][row][col] += X*F
+                        
+        # - LO connections:
+        for list_numb in range(self.hidden_count+1):
+            for row in range(len(self.LO_matrices_list[list_numb])):
+                for col in range(len(self.LO_matrices_list[list_numb][row])):
+                    
+                    # - COV(X,EX,F,EF) | X-source, F-target:
+                    X  = self.X_arrays_list[list_numb][row]
+                    EX = self.EX_arrays_list[list_numb][row]
+                    F  = self.F_arrays_list[self.hidden_count+1][col]
+                    EF = self.EF_arrays_list[self.hidden_count+1][col]
+                    COV_ = utils.COV(X,EX,F,EF)
+                
+                    if self.weight == 0:
+                        # - weight += COV_:
+                        self.LO_matrices_list[list_numb][row][col] += COV_   
+                    
+                    elif self.weight == 1:
+                        # - weithg = movingAverage(COV_)
+                        old_value  = self.LO_matrices_list[list_numb][row][col]
+                        new_value  = COV_
+                        resistance = self.R_arrays_list[list_numb][row]
+                        self.LO_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)
+                    
+                    elif self.weight == 2:
+                        # - weight = X*F:
+                        self.LO_matrices_list[list_numb][row][col] += X*F
+                        
     # END FEEDBACK
     ##############
+    
+    ################
+    # RETURN OUTPUT:
+    def returnOutputPlace(self):
+        layer_numb  = self.hidden_count+1
+        cell_numb   = 0
+        while cell_numb < self.output_size:
+            if self.F_arrays_list[layer_numb][cell_numb] == 1:
+                output_place = cell_numb
+            cell_numb+=1
+        return output_place    
+    # END RETURN OUTPUT
+    ###################
     
     
     ###########
@@ -227,4 +315,4 @@ class Network:
     ##############
     
 # END Class Newtork
-################### 
+###################
