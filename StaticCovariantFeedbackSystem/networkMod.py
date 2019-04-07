@@ -17,12 +17,9 @@ min_PF: min prob of fire
 Matrices:
 LL_matrices: layer to layer connections
 LO_matrices: layer to output connections
-
-Simulation problem: every time you add a layer of symulation the run time of the system increasex with exp(complexityOfTheSystem)
-
-Neural networks are being simulated on out machines
-
-Solution: build a neural net, not a simulation that can run on our machines
+# Weight[row][col]
+# row -> source
+# col -> target
 '''
 
 
