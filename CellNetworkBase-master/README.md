@@ -9,6 +9,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </blockquote>
 
 
+# NOTE: Experimental design. Archived!
+
+
 # CellNetworkBase details:
 - Used Python 2.7
 - The 3D design of the network of cells allows storage and update of memory, while allowing "flow of reactions" system to run layer-to-layer, taking into account present input, sored memory and predicted future
