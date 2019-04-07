@@ -4,6 +4,8 @@
 - Whenever you try to simulate one IOM in another, you have to simulate not only the n bits, but also (compute) all the 2^n connections.
 - Therefore if the IOM needed t ~ n time to provide output given the input, it will need ~2^t time to ptovide output when simulated in another IOM.
 - Here lies the simulation problem of Neural Networks insite Conventional Computers:
+- Concept picture: https://raw.githubusercontent.com/TraxData313/TCRS_NeuralNet_Project/master/NNinsideCC.bmp
+
 
 # The Neural Network (NN) inside Conventional Computer (CC) Problem:
 - NN would need t ~ n time to compute output given input
