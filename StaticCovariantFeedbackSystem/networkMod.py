@@ -23,9 +23,9 @@ LO_matrices: layer to output connections (SP system)
 
 Passed tests:
 - Simple input  -> output relations
+- Varying input -> output relations
 
 Still to pass:
-- Varying input -> output relations | stucks on 0 or 1
 - tictactoe, not tested
 '''
 
@@ -136,7 +136,12 @@ class Network:
             # - reset Fs:
             for cell_numb in range(len(self.F_arrays_list[list_numb])):
                 self.F_arrays_list[list_numb][cell_numb] = 0.
-                
+            # - reset PFs:
+            for cell_numb in range(len(self.PF_arrays_list[list_numb])):
+                self.PF_arrays_list[list_numb][cell_numb] = 0.
+    
+    
+        for list_numb in range(self.hidden_count+2):                
             # - if input layer -> Get input
             if list_numb == 0:
                 for cell_numb in range(len(self.F_arrays_list[0])):
