@@ -4,6 +4,7 @@
 - Every cell fires or doesn't fire
 - The probability of fire is calcilated using the connected cells and their weights
 - Every cell keeps statistical data about its Fire Friquency and Fire*Feedback relation
+- The Spinal Cord System ensures smooth increase of performance over time
 
 # Static:
 - The Neural Network can deal with static situations, where the desigion at every state is not dependend on the past states
