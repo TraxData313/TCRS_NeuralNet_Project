@@ -35,7 +35,7 @@ def resist_factor(list_numb,resist_factor_kind):
     if resist_factor_kind == 0:     # static resist 
         resistance = 100
     elif resist_factor_kind == 1:   # decreasing resist 
-        resistance = 20 - list_numb*2
+        resistance = 100 - list_numb*10
     return resistance
         
 
@@ -56,7 +56,7 @@ class Network:
         self.output_size         = output_size
         self.hidden_count        = hidden_count
         # - Parameters:
-        self.weight_type         = 3      # 0:(+=COV), 1:(mAve), 2:(X*F), 3:MA(X*F)
+        self.weight_type         = 0      # 0:(+=COV), 1:(MA(COV)), 2:(+=X*F), 3:(MA(X*F))
         self.max_resist          = 100    # Cell change max resistance
         self.resist_factor_kind  = 1      # 0:static, 1:decreasing
         self.min_PF              = 1      # PF/1000
@@ -101,6 +101,7 @@ class Network:
         # - Connection Matrices:
         self.LL_matrices_list = []
         self.LO_matrices_list = []
+        self.LB_matrices_list = []
         for list_numb in range(hidden_count+1):
             # -- Create the LL matrices:
             if list_numb == 0:
@@ -125,6 +126,22 @@ class Network:
             temp_matrix = np.random.randint(-10, high=10, size=(temp_LO_in_size, temp_LO_out_size))
             temp_matrix = temp_matrix/100.
             self.LO_matrices_list.append(temp_matrix)  
+            # -- Create the LB matrices:
+            if list_numb == 0:              # input = 0:
+                temp_LB_in_size  = 0
+                temp_LB_out_size = 0
+            elif list_numb == 1:
+                # first LB matrix goes from H1 to Input
+                temp_LB_in_size  = self.hidden_size
+                temp_LB_out_size = self.input_size
+            else:                           # H to H:
+                # nth LB matrix goes from Hn to Hn-1
+                temp_LB_in_size  = self.hidden_size
+                temp_LB_out_size = self.hidden_size
+            temp_matrix = np.random.randint(-10, high=10, size=(temp_LB_in_size, temp_LB_out_size))
+            temp_matrix = temp_matrix/100. 
+            self.LB_matrices_list.append(temp_matrix)
+                
     # END INIT
     ##########
 
@@ -163,7 +180,7 @@ class Network:
                     PF = utils.boundInputMinMax(PF, min_value, max_value)
                     self.PF_arrays_list[list_numb][cell_numb] = PF/1000.
                     # -- Decide whether to fire based on PF:
-                    randNumb = random.randint(0,1000)
+                    randNumb = random.randint(500,1000)
                     if randNumb <= PF:
                         self.F_arrays_list[list_numb][cell_numb] = 1
                         # -- if fired  -> min_PF  = min_PF :
@@ -172,14 +189,6 @@ class Network:
                         self.F_arrays_list[list_numb][cell_numb] = 0
                         # -- if !fired -> min_PF += step_PF :
                         self.min_PF_arrays_list[list_numb][cell_numb] += self.step_PF 
-                        
-            # - bound normalize PFs for output (min < OF):
-            if list_numb == self.hidden_count+1:
-                for cell_numb in range(len(self.PF_arrays_list[list_numb])):
-                    PF = self.PF_arrays_list[list_numb][cell_numb]*1000
-                    min_value = self.min_PF_arrays_list[list_numb][cell_numb]
-                    PF = utils.boundInputMin(PF, min_value)
-                    self.PF_arrays_list[list_numb][cell_numb] = PF/1000.
                 
             # - Run LL connections PF(n+1) = F(n) * LL : 
             if list_numb < self.hidden_count:
@@ -187,17 +196,60 @@ class Network:
                 F  = self.F_arrays_list[list_numb]
                 LL = self.LL_matrices_list[list_numb]
                 self.PF_arrays_list[list_numb+1] = np.dot(F, LL)
-             
-            # - Run LO connections PF(out) += F(n) * LO :
-            if list_numb < self.hidden_count+1:
-                PF = self.PF_arrays_list[self.hidden_count+1] # target = output layer
+            
+            # - LB connections PF(n-1) = F(n)*LB
+            if list_numb > 0 and list_numb <= self.hidden_count:
+                PF = self.PF_arrays_list[list_numb-1]
                 F  = self.F_arrays_list[list_numb]
-                LO = self.LO_matrices_list[list_numb]
-                PF = np.dot(F, LO)
-                self.PF_arrays_list[self.hidden_count+1] += PF 
+                LB = self.LB_matrices_list[list_numb]
+                self.PF_arrays_list[list_numb-1] += np.dot(F, LB)
+                # -- Force re-fire on the target:
+                # - if input layer -> F = PF:
+                if list_numb == 0:
+                    for cell_numb in range(len(self.PF_arrays_list[0])):
+                        F = self.PF_arrays_list[0][cell_numb]
+                        self.F_arrays_list[0][cell_numb] = F
+                # - if hidden layer:
+                elif list_numb != self.hidden_count+1:
+                    for cell_numb in range(len(self.PF_arrays_list[list_numb])):
+                        # -- bound normalize PFs (min < PF < max):
+                        PF = self.PF_arrays_list[list_numb][cell_numb]*1000
+                        min_value = self.min_PF_arrays_list[list_numb][cell_numb]
+                        max_value = self.max_PF
+                        PF = utils.boundInputMinMax(PF, min_value, max_value)
+                        self.PF_arrays_list[list_numb][cell_numb] = PF/1000.
+                        # -- Decide whether to fire based on PF:
+                        randNumb = random.randint(500,1000)
+                        if randNumb <= PF:
+                            self.F_arrays_list[list_numb][cell_numb] = 1
+                            # -- if fired  -> min_PF  = min_PF :
+                            self.min_PF_arrays_list[list_numb][cell_numb] = self.min_PF 
+                        else:
+                            self.F_arrays_list[list_numb][cell_numb] = 0
+                            # -- if !fired -> min_PF += step_PF :
+                            self.min_PF_arrays_list[list_numb][cell_numb] += self.step_PF 
+                # -- END Force re-fire
                 
-            # - if output layer -> provide the output O(PF)
+            # - OUTPUT layer:
             if list_numb == self.hidden_count+1:
+                # -- Run all LO matrices:
+                matr_numb = 0
+                if matr_numb < self.hidden_count+1:
+                    # --- Run LO connections PF(out) += F(n) * LO :
+                    PF = self.PF_arrays_list[self.hidden_count+1] # target = output layer
+                    F  = self.F_arrays_list[matr_numb]
+                    LO = self.LO_matrices_list[matr_numb]
+                    PF = np.dot(F, LO)
+                    self.PF_arrays_list[self.hidden_count+1] += PF
+            
+                # -- bound normalize PFs for output (min < OF):
+                for cell_numb in range(len(self.PF_arrays_list[list_numb])):
+                    PF = self.PF_arrays_list[list_numb][cell_numb]*1000
+                    min_value = self.min_PF_arrays_list[list_numb][cell_numb]
+                    PF = utils.boundInputMin(PF, min_value)
+                    self.PF_arrays_list[list_numb][cell_numb] = PF/1000.
+            
+                # -- provide the output O(PF):
                 sum = 0
                 cell_numb = 0
                 while cell_numb < self.output_size:
@@ -277,7 +329,7 @@ class Network:
                         new_value  = X*F
                         resistance = self.R_arrays_list[list_numb][row]
                         self.LL_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)
-                        
+           
         # - LO connections:
         for list_numb in range(self.hidden_count+1):
             for row in range(len(self.LO_matrices_list[list_numb])):
@@ -311,8 +363,40 @@ class Network:
                         new_value  = X*F
                         resistance = self.R_arrays_list[list_numb][row]
                         self.LO_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)
+                       
+        # - LB connections:
+        for list_numb in range(self.hidden_count+1):
+            for row in range(len(self.LB_matrices_list[list_numb])):
+                for col in range(len(self.LB_matrices_list[list_numb][row])):
+                
+                    # - COV(X,EX,F,EF) | X-source, F-target:
+                    X  = self.X_arrays_list[list_numb][row]
+                    EX = self.EX_arrays_list[list_numb][row]
+                    F  = self.F_arrays_list[list_numb-1][col]
+                    EF = self.EF_arrays_list[list_numb-1][col]
+                    COV_ = utils.COV(X,EX,F,EF)
+                    
+                    if self.weight_type == 0:
+                        # - weight_type += COV_:
+                        self.LB_matrices_list[list_numb][row][col] += COV_   
+                    
+                    elif self.weight_type == 1:
+                        # - weithg = movingAverage(COV_)
+                        old_value  = self.LB_matrices_list[list_numb][row][col]
+                        new_value  = COV_
+                        resistance = self.R_arrays_list[list_numb][row]
+                        self.LB_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)
+                    
+                    elif self.weight_type == 2:
+                        # - weight_type = X*F:
+                        self.LB_matrices_list[list_numb][row][col] += X*F
                         
-                        
+                    elif self.weight_type == 3:
+                        # - weight_type = movingAverage(X*F):
+                        old_value  = self.LB_matrices_list[list_numb][row][col]
+                        new_value  = X*F
+                        resistance = self.R_arrays_list[list_numb][row]
+                        self.LB_matrices_list[list_numb][row][col] = utils.movingAverage(old_value, new_value, resistance)        
     # END FEEDBACK
     ##############
     
