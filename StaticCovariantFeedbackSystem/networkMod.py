@@ -146,9 +146,15 @@ class Network:
             if list_numb == 0:
                 for cell_numb in range(len(self.F_arrays_list[0])):
                     self.PF_arrays_list[0][cell_numb] = input_array[cell_numb]
-                    
-            # - if hidden or input layer:
-            if list_numb != self.hidden_count+1:
+            
+            # - if input layer -> F = PF:
+            if list_numb == 0:
+                for cell_numb in range(len(self.PF_arrays_list[0])):
+                    F = self.PF_arrays_list[0][cell_numb]
+                    self.F_arrays_list[0][cell_numb] = F
+            
+            # - if hidden layer:
+            elif list_numb != self.hidden_count+1:
                 for cell_numb in range(len(self.PF_arrays_list[list_numb])):
                     # -- bound normalize PFs (min < PF < max):
                     PF = self.PF_arrays_list[list_numb][cell_numb]*1000
