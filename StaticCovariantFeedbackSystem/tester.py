@@ -7,11 +7,13 @@ from networkMod import Network
 from utils import println
 
 
+
 println(10)
 print("Test variants:")
-print(" - 0 for Simple test : Constant Answer")
-print(" - 1 for Basic test  : Dependent Answer")
-print(" - 2 for Classifier  : Answer(Coordinate)")
+print(" - 0 for Simple test  : Constant Answer")
+print(" - 1 for Basic test   : Dependent Answer")
+print(" - 2 for Classifier   : Answer(Coordinate)")
+print(" - 3 for Permutation  : Answer(Perm(input))")
 testVariant = input("Please choose a test: ")
 testVariant = int(testVariant)
 
@@ -50,6 +52,13 @@ if testVariant == 0 or testVariant == 1:
     time.sleep(0.5)
     print("Done!")
     print(sampleNetwork)
+    
+    
+    # TESTING: !!!!!!!!!!!!!!!!!!!!
+    print(sampleNetwork.LB_matrices_list)
+    #opalqlalalqwrlqw = ldsapd
+    
+    
     
     score_list = [0]*100
     println(25)
@@ -251,3 +260,115 @@ elif testVariant == 2:
         tick += 1
 # END CLASSIFIER TEST
 #####################
+
+
+
+####################
+# PERMUTATIONS TEST:
+elif testVariant == 3:
+    print()
+    print(" - Simple Permutation Test: Anser(Perm(Input))")
+    print("   If input=[1,0], answer=[1,0,0]")
+    print("   If input=[0,1], answer=[0,1,0]")
+    print("   If input=[1,1], answer=[0,0,1]")
+    print("   Test if the machine's hidden layers can")
+    print("   learn from the connections in the input")
+    print()
+    # - Parameters:
+    input_size   = 2
+    print()
+    hidden_count = input("Please specify hidden network count: ")
+    hidden_count = int(hidden_count)
+    if hidden_count == 0:
+        hidden_size = 0
+    else:
+        print()
+        hidden_size  = input("Please specify hidden network size: ")
+        hidden_size  = int(hidden_size)
+    output_size = 3
+    print()
+    print("Creating a network...")
+    sampleNetwork = Network(input_size,
+                            hidden_size,
+                            output_size,
+                            hidden_count)
+    time.sleep(0.5)
+    print("Done!")
+    print(sampleNetwork)
+    
+    score_list = [0]*100
+    println(25)
+    tick = 0
+    while True:
+        # - Prepare the input:
+        input = []
+        someInt = random.randint(0,2)
+        if someInt == 0:
+            input.append(1)
+            input.append(0)
+        elif someInt == 1:
+            input.append(0)
+            input.append(1)
+        else:
+            input.append(1)
+            input.append(1)
+            
+        # - inputAndUpdate:
+        sampleNetwork.inputAndUpdate(input)
+        
+        # - Get the output:
+        output = sampleNetwork.returnOutputPlace()
+        
+        # - Check the answer:
+        if someInt == 0:
+            if output == 0:
+                feedback = 1
+            else:
+                feedback = -1
+        elif someInt == 1:
+            if output == 1:
+                feedback = 1
+            else:
+                feedback = -1
+        elif someInt == 2:
+            if output == 2:
+                feedback = 1
+            else:
+                feedback = -1
+                
+        # - feedback the network:
+        sampleNetwork.feedback(feedback)
+                
+        # - Calculate score (% of right answers):
+        if feedback == 1:
+            new_score = 1
+        else:
+            new_score = 0
+        score_list.append(new_score)
+        score_list.pop(0)
+        
+        # - End loop:
+        if tick % 100 == 0:
+            correctness = np.mean(score_list)
+            println(10)
+            print("Correct vs wrong answers list:")
+            print(score_list)
+            print()
+            print("Inner weights:")
+            print(sampleNetwork.LL_matrices_list)
+            print()
+            print("Backward weights:")
+            print(sampleNetwork.LB_matrices_list)
+            print()
+            print("Outer weights:")
+            print(sampleNetwork.LO_matrices_list)
+            println(5)
+            print("Tick:", tick)
+            print(sampleNetwork)
+            print("Output  :", output)
+            print("Feedback:", feedback)
+            print("Correct in %:", correctness)
+            time.sleep(0.3)
+        tick += 1
+# END PERMUTATIONS TEST
+#######################
