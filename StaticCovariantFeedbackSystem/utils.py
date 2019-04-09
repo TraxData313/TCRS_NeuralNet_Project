@@ -39,8 +39,7 @@ def COV(X1,EX1,X2,EX2):
     
 # - Moving average:
 def movingAverage(old_value, new_value, resistance):
-    result = (old_value*resistance+new_value)/(resistance+1)
-    return result
+    return ((old_value*resistance)+new_value)/float(resistance+1)
     
 
 
