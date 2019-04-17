@@ -6,7 +6,12 @@ def normalizeStd(array):
 # - Normalize input data (0<x<1):
 def normalizeMinMax(array):
 	return (array - array.mean()) / (max(array) - min(array))
-
+'''
+# using sklearn:
+from sklearn.preprocessing import MinMaxScaler
+sc = MinMaxScaler(feature_range = (0, 1))
+training_set_scaled = sc.fit_transform(training_set)
+'''
 
 
 
