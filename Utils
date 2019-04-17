@@ -1,9 +1,9 @@
     
-# - Normalize input data (stdiv):
+# - Standardize input data (-1<x<1):
 def normalizeStd(array):
 	return (array - array.mean()) / array.std()
     
-# - Normalize input data (min-max):
+# - Normalize input data (0<x<1):
 def normalizeMinMax(array):
 	return (array - array.mean()) / (max(array) - min(array))
 
