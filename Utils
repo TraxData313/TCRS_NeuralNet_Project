@@ -104,3 +104,17 @@ def diagonalized(rows, cols, min=-1, max=1):
                 temp_matrix[row][el] = random.randint(min*100,max*100)/100.
     return temp_matrix
 #
+
+def runConnectionsPush(array_matrix, conn_matr_list):
+    # A[n+1] = np.dot(A[n],M[n])
+    for n in range(len(array_matrix)-1):
+        array_matrix[n+1] = np.dot(array_matrix[n],conn_matr_list[n])
+    return array_matrix
+    
+def runConnectionsPull(array_matrix, conn_matr_list):
+    # A[n+1] = np.dot(A[n],M[n])
+    n = len(array_matrix)-2
+    while n >= 0:
+        array_matrix[n+1] = np.dot(array_matrix[n],conn_matr_list[n])
+        n = n - 1
+    return array_matrix
