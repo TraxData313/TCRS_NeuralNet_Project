@@ -1,4 +1,7 @@
-    
+import numpy as np
+import random
+
+
 # - Standardize input data (-1<x<1):
 def normalizeStd(array):
 	return (array - array.mean()) / array.std()
@@ -22,6 +25,17 @@ def boundInputMinMax(input, min_value, max_value):
     elif input > max_value:
         input = max_value
     return input
+    
+# - Bound input array (min < input < max):
+def boundInputMinMaxArray(array, min_value, max_value):
+    for n in range(len(array)):
+        if array[n] < min_value:
+            array[n] = min_value
+        elif array[n] > max_value:
+            array[n] = max_value
+        return array
+
+
    
 # - Bound input (min < input):
 def boundInputMin(input, min_value):
@@ -78,3 +92,15 @@ def cross_entropy(T, Y):
 def println(lines):
     for n in range(lines):
         print(" ")
+        
+        
+        
+# - Create diagnolized matrix:
+def diagonalized(rows, cols, min=-1, max=1):
+    temp_matrix = np.zeros((rows, cols))
+    for row in range(rows):
+        for el in range(cols):
+            if el == row or el-1 == row or el+1 == row:
+                temp_matrix[row][el] = random.randint(min*100,max*100)/100.
+    return temp_matrix
+#
