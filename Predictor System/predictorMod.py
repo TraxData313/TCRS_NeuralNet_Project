@@ -42,6 +42,49 @@ DETAILS:
 	if on average the Cell undershoots -> it will get start giving higher Pn
 '''
 
+####################
+# - decodeDendrites:
+def decodeDendrites(dendr_matrix, 
+                    value_matrix, 
+                    averages_matrix,
+                    dendr_rating_matrix):
+    '''
+    OPERATION:
+    For Pre-Encoded Dn = E(COV) = E((I[0]-EI[0])*(A[n]-EA[n]))
+    Decoding: Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn) =
+    = (EI0(An - EAn) + Dn)/(An - EAn) =
+    = EI0 + Dn/(An - EAn)
+    Prediction = SUM(Pn*Rn)/Rn
+    WHERE:
+    Dn:  n'th Dendrite
+    Rn:  n'th Dendrite Rating
+    Pn:  n'th Prediction
+    An:  n'th Current Value
+    EAn: Moving Average of An
+    EI0: Moving Average of A0 (first input)
+    '''
+    rows = len(dendr_matrix)
+    cols = len(dendr_matrix[0])
+    # - Decode the dendrites into the Pn's:
+    Pred_matrix = np.zeros((rows, cols))
+    for row in range(rows):
+        for el in range(cols):
+            # Pn = EI0 + Dn/(An - EAn)
+            Pred_matrix[row][el] = averages_matrix[0][0]
+            divisor = (value_matrix[row][el] - averages_matrix[row][el])
+            if divisor == 0:
+                print()
+                print("BIG FAIL: divisor = 0 in decodeDendrites ... O.O")
+                print()
+                hophop = 1/0
+            else:
+                Pred_matrix[row][el] += dendr_matrix[row][el]/divisor
+    # - Return the prediction = SUM(Pn*Rn)/Rn:
+    return Pred_matrix, np.sum(np.multiply(Pred_matrix, dendr_rating_matrix)) / np.sum(dendr_rating_matrix)
+# END decodeDendrites
+#####################
+
+
 ##################
 # Class Predictor:
 class Predictor:
@@ -58,27 +101,36 @@ class Predictor:
         self.output_size = 1
         
         # - Parameters:
-        self.life                = 0
-        self.min_resist          = 0
-        self.max_resist          = 1000
+        self.min_V_resist        = 0
+        self.max_V_resist        = 1 # max_V_resist = 1 : COV -> dX/dY
+        self.min_D_resist        = 0
+        self.max_D_resist        = 1000
+        self.dRating_resist      = 100
         self.pull                = 1   # if 1: Pull-Run, if 0: Push-Run
         self.dendr_type          = 0   # 0: E(COV)
+        self.start_predicting    = 10
+        
+        # - Variables:
+        self.life                = 0
+        self.RV                  = self.min_V_resist # Value    change resistance
+        self.RD                  = self.min_D_resist # Dendrite change resistance
         
         # - Create the input cell:
         self.input_cell          = 0.
         
         # - Create the output (prediction) layer:
-        self.output_layer = np.zeros(self.output_size)
+        self.output_layer  = np.zeros(self.output_size)
+        
+        # - Create the prediction error layer:
+        self.error_layer   = np.zeros(self.output_size)
         
         # - Create the cell_matrices:
         self.cell_matrix_V       = np.zeros((row_count, row_size)) # Value
         self.cell_matrix_EV      = np.zeros((row_count, row_size)) # E(V)
         self.cell_matrix_D       = np.zeros((row_count, row_size)) # Dendrite
-        self.cell_matrix_R       = np.zeros((row_count, row_size)) # Resistance
-        self.cell_matrix_E       = np.zeros((row_count, row_size)) # Prediction Error
-        for row in range(row_count):
-            for el in range(row_size):
-                self.cell_matrix_R[row][el] = self.min_resist
+        self.cell_matrix_P       = np.zeros((row_count, row_size)) # Last Prediction
+        self.cell_matrix_DR      = np.ones((row_count, row_size))  # Dendrite Rating
+        self.cell_matrix_ER      = np.zeros((row_count, row_size)) # Average Cell Prediction Error
         
         # - Create the connection matrices:
         self.connections_list    = []
@@ -98,6 +150,27 @@ class Predictor:
         # - Get the input to the input cell:
         self.input_cell = new_input
         
+        # - Evaluate the prediction:
+        if self.life > self.start_predicting+1:
+            old_value  = self.error_layer[0]
+            new_value  = abs((self.output_layer[0] - self.input_cell)/self.input_cell)
+            resistance = 100
+            self.error_layer[0] = utils.movingAverage(old_value, new_value, resistance)
+            print("AVERAGE ERROR:", self.error_layer[0])
+            
+        # - Rate the dendrites:
+        # Rn = E( 1 - abs( (Pn - I0) / I0 ) )
+        if self.life > self.start_predicting+1:
+            for row in range(self.row_count):
+                for el in range (self.row_size):
+                    old_value  = self.cell_matrix_DR[row][el]
+                    new_value  = 1 - abs((self.cell_matrix_P[row][el] - self.input_cell)/self.input_cell)
+                    resistance = self.dRating_resist
+                    Rn = utils.movingAverage(old_value, new_value, resistance)
+                    if Rn < 0.001:
+                        Rn = 0.001
+                    self.cell_matrix_DR[row][el] = Rn
+        
         # - Update the dendrites:
         if self.life > self.row_size:
             for row in range(self.row_count):
@@ -115,9 +188,12 @@ class Predictor:
                         # -- Calculate and set Dn = E(COV):
                         old_value  = Dn
                         new_value  = COV_
-                        resistance = self.cell_matrix_R[row][el]
-                        Dn = utils.movingAverage(old_value, new_value, resistance)
+                        Dn = utils.movingAverage(old_value, new_value, self.RD)
                         self.cell_matrix_D[row][el] = Dn
+            # -- Update RV:
+            self.RD += 1
+            if self.RD > self.max_D_resist:
+                self.RD = self.max_D_resist
         
         # - Move Input array back:
         for el in range(self.row_size-1):
@@ -135,18 +211,18 @@ class Predictor:
                                                           self.connections_list)
         # line stopper
         
-        # - Update the EVs and Rs:
+        # - Update the EVs:
         for row in range(self.row_count):
             for el in range(self.row_size):
                 # -- EVs:
                 old_value  = self.cell_matrix_EV[row][el]
                 new_value  = self.cell_matrix_V[row][el]
-                resistance = self.cell_matrix_R[row][el]
-                self.cell_matrix_EV[row][el] = utils.movingAverage(old_value, new_value, resistance)
-                # -- Rs:
-                self.cell_matrix_R[row][el] += 1
-                if self.cell_matrix_R[row][el] > self.max_resist:
-                    self.cell_matrix_R[row][el] = self.max_resist
+                self.cell_matrix_EV[row][el] = utils.movingAverage(old_value, new_value, self.RV)
+                
+        # - Update the RV:
+        self.RV += 1
+        if self.RV > self.max_V_resist:
+            self.RV = self.max_V_resist
         
         # - Update life:
         self.life += 1
@@ -157,10 +233,15 @@ class Predictor:
     ##########
     # PREDICT:
     def predict(self):
-        pass
-        # - Reconstruct next input:
-        # Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn)
-        # Prediction = SUM(Pn*Rn)/SUM(Rn)
+        if self.life > self.start_predicting:
+            # - Reconstruct next input:
+            # Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn) = (EI0(An - EAn) + Dn)/(An - EAn) = EI0 + Dn/(An - EAn)
+            # Prediction = SUM(Pn*Rn)/SUM(Rn)
+            self. cell_matrix_P, self.output_layer[0] = decodeDendrites(self.cell_matrix_D, 
+                                                                        self.cell_matrix_V, 
+                                                                        self.cell_matrix_EV,
+                                                                        self.cell_matrix_DR)
+            # stop lines
     # END PREDICT
     #############
     
@@ -197,16 +278,30 @@ class Predictor:
     # - Cell change resistances:
     def printResistances(self):
         print()
-        print("Cell change resistances:")
-        for n in range(self.row_count):
-            print(self.cell_matrix_R[n])
+        print("- Value    change resistance:", self.RV)
+        print("- Dendrite change resistance:", self.RD)
             
-    # - Cell change resistances:
+    # - Cell dendrites:
     def printDendrites(self):
         print()
         print("Cell dendrites:")
         for n in range(self.row_count):
             print(self.cell_matrix_D[n])
+            
+    # - Cell dendrite predictions:
+    def printDendrPredictions(self):
+        print()
+        print("Cell dendrite predictions:")
+        for n in range(self.row_count):
+            print(self.cell_matrix_P[n])
+            
+    # - Cell dendrite rating:
+    def printDendrRatings(self):
+        print()
+        print("Cell dendrite ratings:")
+        for n in range(self.row_count):
+            print(self.cell_matrix_DR[n]) 
+            
     # END PRINTERS
     ##############
     
