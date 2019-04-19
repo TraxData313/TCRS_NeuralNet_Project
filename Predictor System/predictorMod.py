@@ -93,12 +93,13 @@ class Predictor:
     # INIT:
     def __init__(self,
                  row_count,
-                 row_size):
+                 row_size,
+                 output_size):
                 
         # - Dimentions:
         self.row_size    = row_size
         self.row_count   = row_count
-        self.output_size = 1
+        self.output_size = output_size
         
         # - Parameters:
         self.min_V_resist        = 0
@@ -209,8 +210,7 @@ class Predictor:
         else:
             self.cell_matrix_V = utils.runConnectionsPush(self.cell_matrix_V,
                                                           self.connections_list)
-        # line stopper
-        
+                                                          
         # - Update the EVs:
         for row in range(self.row_count):
             for el in range(self.row_size):
@@ -234,14 +234,52 @@ class Predictor:
     # PREDICT:
     def predict(self):
         if self.life > self.start_predicting:
-            # - Reconstruct next input:
-            # Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn) = (EI0(An - EAn) + Dn)/(An - EAn) = EI0 + Dn/(An - EAn)
-            # Prediction = SUM(Pn*Rn)/SUM(Rn)
-            self. cell_matrix_P, self.output_layer[0] = decodeDendrites(self.cell_matrix_D, 
-                                                                        self.cell_matrix_V, 
-                                                                        self.cell_matrix_EV,
-                                                                        self.cell_matrix_DR)
-            # stop lines
+            # - Copy the matrices for the simulation:
+            self.cell_matrix_D_copy = np.copy(self.cell_matrix_D)
+            self.cell_matrix_V_copy = np.copy(self.cell_matrix_V)
+            self.cell_matrix_EV_copy = np.copy(self.cell_matrix_EV)
+            self.cell_matrix_DR_copy = np.copy(self.cell_matrix_DR)
+        
+            # SIMULATIONS:
+            for n in range(self.output_size):
+                # - Reconstruct next input:
+                # Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn) = (EI0(An - EAn) + Dn)/(An - EAn) = EI0 + Dn/(An - EAn)
+                # Prediction = SUM(Pn*Rn)/SUM(Rn)
+                if n == 0:
+                    self.cell_matrix_P, self.output_layer[n] = decodeDendrites(self.cell_matrix_D_copy, 
+                                                                               self.cell_matrix_V_copy, 
+                                                                               self.cell_matrix_EV_copy,
+                                                                               self.cell_matrix_DR_copy)
+                else:
+                    temp_matrix = [] # dummy matrix
+                    # we only needed the first P matrix for the dendr optimization later
+                    temp_matrix, self.output_layer[n] = decodeDendrites(self.cell_matrix_D_copy, 
+                                                                        self.cell_matrix_V_copy, 
+                                                                        self.cell_matrix_EV_copy,
+                                                                        self.cell_matrix_DR_copy)
+                                                  
+                # - Move the input array back:
+                for el in range(self.row_size-1):
+                    self.cell_matrix_V_copy[0][-1-el] = self.cell_matrix_V_copy[0][-2-el]
+                
+                # - Set the A[0][0] input:
+                self.cell_matrix_V_copy[0][0] = self.output_layer[n]
+                
+                # - Run connections:
+                if self.pull == 1:
+                    self.cell_matrix_V_copy = utils.runConnectionsPull(self.cell_matrix_V_copy,
+                                                                       self.connections_list)
+                else:
+                    self.cell_matrix_V_copy = utils.runConnectionsPush(self.cell_matrix_V_copy,
+                                                                       self.connections_list)
+                
+                # - Update the EVs:
+                for row in range(self.row_count):
+                    for el in range(self.row_size):
+                        # -- EVs:
+                        old_value  = self.cell_matrix_EV_copy[row][el]
+                        new_value  = self.cell_matrix_V_copy[row][el]
+                        self.cell_matrix_EV_copy[row][el] = utils.movingAverage(old_value, new_value, self.RV)
     # END PREDICT
     #############
     
