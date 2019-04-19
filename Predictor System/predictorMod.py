@@ -76,6 +76,12 @@ def decodeDendrites(dendr_matrix,
                 print()
                 print("BIG FAIL: divisor = 0 in decodeDendrites ... O.O")
                 print()
+                print("- You said you will take care of this when it happens,")
+                print("  well... It happened! Time to deal with it!")
+                print()
+                print("Reminder: set every nan element to 0 and")
+                print("          its rating to 0")
+                print()
                 hophop = 1/0
             else:
                 Pred_matrix[row][el] += dendr_matrix[row][el]/divisor
@@ -103,13 +109,14 @@ class Predictor:
         
         # - Parameters:
         self.min_V_resist        = 0
-        self.max_V_resist        = 1 # max_V_resist = 1 : COV -> dX/dY
+        self.max_V_resist        = 1    # max_V_resist = 1 : COV -> dX/dY
         self.min_D_resist        = 0
         self.max_D_resist        = 1000
-        self.dRating_resist      = 100
-        self.pull                = 1   # if 1: Pull-Run, if 0: Push-Run
-        self.dendr_type          = 0   # 0: E(COV)
+        self.dRating_resist      = 100  # Rating resist
+        self.pull                = 1    # if 1: Pull-Run, if 0: Push-Run
+        self.dendr_type          = 0    # 0: E(COV)
         self.start_predicting    = 10
+        self.mainR_resist        = 10   # Resistance for the output rating
         
         # - Variables:
         self.life                = 0
@@ -120,7 +127,7 @@ class Predictor:
         self.input_cell          = 0.
         
         # - Create the output (prediction) layer:
-        self.output_layer  = np.zeros(self.output_size)
+        self.output_layer  = np.zeros((self.output_size, self.output_size))
         
         # - Create the prediction error layer:
         self.error_layer   = np.zeros(self.output_size)
@@ -153,11 +160,16 @@ class Predictor:
         
         # - Evaluate the prediction:
         if self.life > self.start_predicting+1:
-            old_value  = self.error_layer[0]
-            new_value  = abs((self.output_layer[0] - self.input_cell)/self.input_cell)
-            resistance = 100
-            self.error_layer[0] = utils.movingAverage(old_value, new_value, resistance)
-            print("AVERAGE ERROR:", self.error_layer[0])
+            for n in range(self.output_size):
+                old_value  = self.error_layer[n]
+                new_value  = abs((self.output_layer[n][n] - self.input_cell)/self.input_cell)
+                resistance = self.mainR_resist
+                self.error_layer[n] = utils.movingAverage(old_value, new_value, resistance)
+                
+        # - Move output layer forward:
+        for row in range(self.output_size):
+            for el in range(self.output_size-1):
+                self.output_layer[row][el] = self.output_layer[row][el+1]
             
         # - Rate the dendrites:
         # Rn = E( 1 - abs( (Pn - I0) / I0 ) )
@@ -168,7 +180,8 @@ class Predictor:
                     new_value  = 1 - abs((self.cell_matrix_P[row][el] - self.input_cell)/self.input_cell)
                     resistance = self.dRating_resist
                     Rn = utils.movingAverage(old_value, new_value, resistance)
-                    if Rn < 0.001:
+                    # Reset Rn on bad predictions:
+                    if new_value < 0.1 or Rn < 0.001:
                         Rn = 0.001
                     self.cell_matrix_DR[row][el] = Rn
         
@@ -246,14 +259,14 @@ class Predictor:
                 # Pn = (EI0*An - EI0*EAn + Dn)/(An - EAn) = (EI0(An - EAn) + Dn)/(An - EAn) = EI0 + Dn/(An - EAn)
                 # Prediction = SUM(Pn*Rn)/SUM(Rn)
                 if n == 0:
-                    self.cell_matrix_P, self.output_layer[n] = decodeDendrites(self.cell_matrix_D_copy, 
+                    self.cell_matrix_P, self.output_layer[n][n] = decodeDendrites(self.cell_matrix_D_copy, 
                                                                                self.cell_matrix_V_copy, 
                                                                                self.cell_matrix_EV_copy,
                                                                                self.cell_matrix_DR_copy)
                 else:
                     temp_matrix = [] # dummy matrix
                     # we only needed the first P matrix for the dendr optimization later
-                    temp_matrix, self.output_layer[n] = decodeDendrites(self.cell_matrix_D_copy, 
+                    temp_matrix, self.output_layer[n][n] = decodeDendrites(self.cell_matrix_D_copy, 
                                                                         self.cell_matrix_V_copy, 
                                                                         self.cell_matrix_EV_copy,
                                                                         self.cell_matrix_DR_copy)
@@ -263,7 +276,7 @@ class Predictor:
                     self.cell_matrix_V_copy[0][-1-el] = self.cell_matrix_V_copy[0][-2-el]
                 
                 # - Set the A[0][0] input:
-                self.cell_matrix_V_copy[0][0] = self.output_layer[n]
+                self.cell_matrix_V_copy[0][0] = self.output_layer[n][n]
                 
                 # - Run connections:
                 if self.pull == 1:
