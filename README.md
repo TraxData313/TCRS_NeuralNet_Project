@@ -19,12 +19,14 @@
  
 # Accomplished so far:
 <b>The Static Covariant Feedback System</b>
+<br>
 - The Static Covariant Feedback System is an ANN-like Logistic Regression System.
 - It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).
 - With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.
 - With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.
 <br>
 <b>The Predictor System</b>
+<br>
 - The Predictor System is a CNN-like Continuous Regression System.
 - It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).
 - The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.
