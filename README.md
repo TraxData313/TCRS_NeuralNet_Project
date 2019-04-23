@@ -16,3 +16,16 @@
 # Motivation and Solution:
 - <b>Better Learning Algorithm</b>: If the goal is to build a Base NN System and the main obstruction is the scaling of the learning algorithms, the solution would be to build a learning algorithm that doesn't scale exponentially with the complexity of the system.
 - <b>Motivation</b>: The human brain contains some 10^10 neurons, each having about 10^4 connections, if it was using exponentially scaling learning method, like the ones we use in our NNs, it would have needed to keep track of some 2^10^14 local variables, which, I believe, is imposible. Instead, my main conjecture is that the cells and their connections have evolved a set of local rules for signal computation and connection updating, that on the macro scale give rise to <b>the Intellect as an emergent phenomenon</b>. Those kinds of micro rules are the main goal of my research here.
+ 
+# Accomplished so far:
+<b>The Static Covariant Feedback System</b>
+- The Static Covariant Feedback System is an ANN-like Logistic Regression System.
+- It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).
+- With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.
+- With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.
+<br>
+<b>The Predictor System</b>
+- The Predictor System is a CNN-like Continuous Regression System.
+- It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).
+- The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.
+- Every cell then makes independent prediction, and the final prediction is a weighted sum of the cell predictions, with the weights beeing the Ratings that each cell has. Then the system simulates itself, using the newest prediction as input, to predict the next future value and repeats this process for N times in order to give N future predictions. Once the new, real value comes, every cell check the prediction it made to update its own Rating.
