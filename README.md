@@ -21,14 +21,14 @@
 <p></p>
 <b>The Static Covariant Feedback System</b>
 <p></p>
-The Static Covariant Feedback System is an ANN-like Logistic Regression System.<br>
+> The Static Covariant Feedback System is an ANN-like Logistic Regression System.<br>
 It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).<br>
-With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.<br>
-With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.<br>
+> With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.<br>
+> With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.<br>
 <p></p>
 <b>The Predictor System</b>
 <p></p>
-The Predictor System is a CNN-like Continuous Regression System.<br>
-It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).<br>
-The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.<br>
-Every cell then makes independent prediction, and the final prediction is a weighted sum of the cell predictions, with the weights beeing the Ratings that each cell has. Then the system simulates itself, using the newest prediction as input, to predict the next future value and repeats this process for N times in order to give N future predictions. Once the new, real value comes, every cell check the prediction it made to update its own Rating.<br>
+> The Predictor System is a CNN-like Continuous Regression System.<br>
+> It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).<br>
+> The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.<br>
+> Every cell then makes independent prediction, and the final prediction is a weighted sum of the cell predictions, with the weights beeing the Ratings that each cell has. Then the system simulates itself, using the newest prediction as input, to predict the next future value and repeats this process for N times in order to give N future predictions. Once the new, real value comes, every cell check the prediction it made to update its own Rating.<br>
