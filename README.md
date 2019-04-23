@@ -26,6 +26,7 @@
 - With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.
 <p></p>
 <b>The Predictor System</b>
+<p></p>
 - The Predictor System is a CNN-like Continuous Regression System.
 - It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).
 - The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.
