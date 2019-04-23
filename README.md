@@ -19,7 +19,7 @@
  
 # Accomplished so far:
 <b>The Static Covariant Feedback System</b>
-<br>
+<br></br>
 - The Static Covariant Feedback System is an ANN-like Logistic Regression System.
 - It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).
 - With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.
