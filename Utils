@@ -9,6 +9,10 @@ def normalizeStd(array):
 # - Normalize input data (0<x<1):
 def normalizeMinMax(array):
 	return (array - array.mean()) / (max(array) - min(array))
+	# I think i got it wrong
+	# most likely it would be (array - min(array)) / (max(array) - min(array))
+	# to get the 0 < X < 1 values
+	# need to test it next time used
 '''
 # using sklearn:
 from sklearn.preprocessing import MinMaxScaler
