@@ -5,28 +5,36 @@
 &nbsp; &nbsp; &nbsp; Most of the research today is concentrated at optimizing the NNs to be a better fit for the CCs, or making the CCs a better host for the NNs.
 <br>
 <br>
+<br>
+<br>
 
 <p><b>The motivation</b>:</p>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; I believe that we need to "free" the NNs, if we want to achieve the success of the CCs.<br>
+&nbsp; &nbsp; &nbsp; I believe that we need to "free" the NNs, if we want to achieve the success of the CCs.<br>
 <br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If we build the NNs in a "smart" way that will no longer need our CCs to carry out the heavy tast of optimizing them, but as to outsource that job to the laws of nature, we can stop finding ways to build ligther optimization tasks, but start working on making smaller neurons, making faster connections... Start the process of scaling the number of neurons in the networks as fast as how we were/are scaling the number of transistors in our computers, achieve the Moore's Law of NNs.
+&nbsp; &nbsp; &nbsp; If we build the NNs in a "smart" way that will no longer need our CCs to carry out the heavy tast of optimizing them, but as to outsource that job to the laws of nature, we can stop finding ways to build ligther optimization tasks, but start working on making smaller neurons, making faster connections... Start the process of scaling the number of neurons in the networks as fast as how we were/are scaling the number of transistors in our computers, achieve the Moore's Law of NNs.
+<br>
+<br>
 <br>
 <br>
 
 <p><b>The conjecture:</b></p>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The main obstruction is the Global nature of the current successful optimization (learning) algorithms. We state the optimization problem as a system of linear equations to make it easier for the CC and then compromise and polish out edges.<br>
+&nbsp; &nbsp; &nbsp; The main obstruction is the Global nature of the current successful optimization (learning) algorithms. We state the optimization problem as a system of linear equations to make it easier for the CC and then compromise and polish out edges.<br>
 <br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; But in general, to optimize a weight, one needs to ask the CC to compute a function, having in mind the relation of that one weight with respect to all others. And then the CC needs to do this for all weights.<br>
+&nbsp; &nbsp; &nbsp; But in general, to optimize a weight, one needs to ask the CC to compute a function, having in mind the relation of that one weight with respect to all others. And then the CC needs to do this for all weights.<br>
 <br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If the Global nature of the process is the obstruction, the solution would be to make a Local process, Local rules that every part of the NN will follow and of which the Learning, Optimization and Intellect will be able naturally emerge.
+&nbsp; &nbsp; &nbsp; If the Global nature of the process is the obstruction, the solution would be to make a Local process, Local rules that every part of the NN will follow and of which the Learning, Optimization and Intellect will be able naturally emerge.
+<br>
+<br>
 <br>
 <br>
 
 <b>Personal notes</b>:
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; This is what this research is about, and in the section below I'll be tracking its progress.<br>
+&nbsp; &nbsp; &nbsp; This is what this research is about, and in the section below I'll be tracking its progress.<br>
 <br>
 - Why I work on this?<br>
 - I think we'll need the best symmetry extractor if we are to start braking the problem of extracting all the symmetrys in nature.
+<br>
+<br>
 <br>
 <br>
 <br>
