@@ -12,10 +12,6 @@
 - But in general, to update a weight, one needs to ask the CC to carry out optimization task, "minding" the relation of that one weight with respect to all others. And then the CC needs to do this for all weights to complete one step.
 - If the Global nature of the process is the obstruction, then the solution would be to make a Local process, Local rules that every part of the NN will follow and out of which the Learning, Optimization and Intellect will be able naturally emerge.
 
-#### Research notes:
-- This is what this research is about, and in the section below I'll be tracking its progress.
-- Why I work on this? I think we'll need the best symmetry extractor if we are to start braking the problem of extracting all the symmetrys in nature.
-
 #### The Confusion Point:
 - It is one of the most important objects of my study, so I'll make a formal definition of it here.
 - <b>Definition:</b> When scaling an NN, which uses a Local learning algorithm, the predictive power (P) of the NN would start increasing with the increase of the NN's scale/complexity (C).The confusion point is the point of C at which P drops. Or:
