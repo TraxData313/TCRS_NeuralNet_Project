@@ -17,9 +17,9 @@
 - Why I work on this? I think we'll need the best symmetry extractor if we are to start braking the problem of extracting all the symmetrys in nature.
 
 #### The Confusion Point:
-- It is one of the most important subjects of my study, so I'll make a formal definition of it here.
-- <b>Definition:</b> When scaling an NN, which uses a Local learning algorithm, the predictive power (P) of the NN would start increasing with the increase of the NN scale/complexity (C).The confusion point is the point of C at which P drops. Or:
-<br><i>dP/dC > 0 up to the Confusion point for a given Local learning algorithm</i>
+- It is one of the most important objects of my study, so I'll make a formal definition of it here.
+- <b>Definition:</b> When scaling an NN, which uses a Local learning algorithm, the predictive power (P) of the NN would start increasing with the increase of the NN's scale/complexity (C).The confusion point is the point of C at which P drops. Or:
+    - dP/dC > 0 up to the Confusion point for a given Local learning algorithm
 - When the goal is naturall emergence, there is no way around dealing with chaotic behaviour.
 
 <br><br>
