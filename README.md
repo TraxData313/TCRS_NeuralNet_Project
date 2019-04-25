@@ -1,23 +1,24 @@
-# Definitions:
-- <b>NNs and CCs</b>: Neural Networks (<b>NN</b>) and Conventional Computers (<b>CC</b>) are two different types of Input-Output Machines (<b>IOM</b>).
-- <b>Bits and Gates</b>: Both types (NNs and CCs) contain bit holders (memory) and gates (connections). Gates are logical operations that take as input the state of bit holders and output the result state output bits.
-- <b>Base Systems</b>: A base system's Gates are physical circuits, build in such a way, that given the input bits the gates are directly executed by natural laws.
-- - Example: the Gates in the CCs are build out of transistors. They are build in a "smart" way, such that given the input currents (+ or -), the laws of electrodynamics will provide the desired output (+ or -).
-- <b>Simulated Sistems</b>: On the other hand, a simulated system exists as an abstraction inside another (<b>Host</b>) IOM, and the operations in its Gates are calculated by the Host IOM.
-
-# The Simulation Problem of NNs:
-- <b>The problem</b>: Neural Networks, as of now, only exist as simulations within Conventional Computers, and we cannot build a Base NN IOM.
-
-# The obstructions:
-- <b>Local Operations</b>: In order to build a Base System, we need to represent all operations as small, simple units of computation, then create "smart", self-similar circuits, like the transistors in the CCs, that can carry out those operations. Once we have those Local units, we can start scaling them to build more powerfull IOM.
-- <b>Learning is a Global operation</b>: We can easily represent the bit holders and the weights of the the NNs as Local operations, but the problem comes with weight updating (learning) algorithms, like the general Gradient Descent method, which needs to take as input the whole <b>the Global state</b> of the system in order to update a single weight.
-- <b>Exponential scaling</b>: If we are to "bute-force" express an NN right now, an in particular its learning mechanism, in Local therms, we will need to create a circuild between every weight in the system. <b>If we add one weight to a system of N weights, we will need to create 2^N Local units</b>. Hence the obstruction to building a Base NN system - the scaling of the Local circuits that it will need to operate.
-
-# Motivation and Solution:
-- <b>Better Learning Algorithm</b>: If the goal is to build a Base NN System and the main obstruction is the scaling of the learning algorithms, the solution would be to build a learning algorithm that doesn't scale exponentially with the complexity of the system.
-- <b>Motivation</b>: The human brain contains some 10^10 neurons, each having about 10^4 connections, if it was using exponentially scaling learning method, like the ones we use in our NNs, it would have needed to keep track of some 2^10^14 local variables, which, I believe, is imposible. Instead, my main conjecture is that the cells and their connections have evolved a set of local rules for signal computation and connection updating, that on the macro scale give rise to <b>the Intellect as an emergent phenomenon</b>. Those kinds of micro rules are the main goal of my research here.
+# Research Description:
+<br>
+<b>The problem</b>: 
+- Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines (IOMs), but yet every NN only successfully exists as a simulation in a CC.
+- Most of the research today is concentrated at optimizing the NNs to be a better fit for the CCs, or making the CCs a better host for the NNs.
+<br>
+<b>The motivation</b>: 
+- I believe that we need to "free" the NNs, if we want to achieve the success of the CCs.
+- If we build the NNs in a "smart" way that will no longer need our CCs to carry out the heavy tast of optimizing them, but as to outsource that job to the laws of nature, we can stop finding ways to build ligther optimization tasks, but start working on making smaller neurons, making faster connections... Start the process of scaling the number of neurons in the networks as fast as how we were/are scaling the number of transistors in our computers, achieve the Moore's Law of NNs.
+<br>
+<b>The conjecture</b>:
+- The main obstruction is the Global nature of the current successful optimization (learning) algorithms. We state the optimization problem as a system of linear equations to make it easier for the CC and then compromise and polish out edges.
+- But in general, to optimize a weight, one needs to ask the CC to compute a function, having in mind the relation of that one weight with respect to all others. And then the CC needs to do this for all weights.
+- If the Global nature of the process is the obstruction, the solution would be to make a Local process, Local rules that every part of the NN will follow and of which the Learning, Optimization and Intellect will be able naturally emerge.
+<br>
+<b>Personal notes</b>:
+- This is what this research is about, and in the section below I'll be tracking its progress.
+- Why I work on this - I think we'll need the best symmetry extractor if we are to start braking the problem of extracting all the symmetrys in nature.
+<br><br>
  
-# Accomplished so far:
+# Reseach Progress:
 <p></p>
 <b>The Static Covariant Feedback System</b>:
 <p></p>
