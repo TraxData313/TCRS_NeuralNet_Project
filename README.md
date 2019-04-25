@@ -1,5 +1,5 @@
 # Research Description:
-### The problem:
+#### The problem:
 Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines (IOMs), but yet every NN only successfully exists as a simulation in a CC.
 Most of the research today is concentrated at optimizing the NNs to be a better fit for the CCs, or making the CCs a better host for the NNs.
 
