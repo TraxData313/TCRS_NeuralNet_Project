@@ -25,13 +25,11 @@ Why I work on this? I think we'll need the best symmetry extractor if we are to 
 
  
 ## Reseach Progress:
-<p></p>
-<b>The Static Covariant Feedback System</b>:
-<p></p>
-> The Static Covariant Feedback System is an ANN-like Logistic Regression System.<br>
-> It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).<br>
-> With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.<br>
-> With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.<br>
+#### The Static Covariant Feedback System</b>:
+    - The Static Covariant Feedback System is an ANN-like Logistic Regression System.<br>
+    - It uses a Local "covariant" learning algorithm that independently updates weights between the cells (bit holders).<br>
+    - With no hidden layers, the system can perform Logistic Regression of any N independent inputs, like classifing a point given N coordinates.<br>
+    - With a few hidden layers, the system can learn to perform harder Classifier tasks, like predicting whether a Bank customer will Churn.<br>
 <br>
 <p></p>
 <b>The Predictor System</b>:
