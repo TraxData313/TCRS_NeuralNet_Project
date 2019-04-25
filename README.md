@@ -1,13 +1,11 @@
 ## Research Description:
 #### The problem:
-Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines (IOMs), but yet every NN only successfully exists as a simulation in a CC.
-
-Most of the research today is concentrated at optimizing the NNs to be a better fit for the CCs, or making the CCs a better host for the NNs.
+- Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines (IOMs), but yet every NN only successfully exists as a simulation in a CC.
+- Most of the research today is concentrated at optimizing the NNs to be a better fit for the CCs, or making the CCs a better host for the NNs.
 
 #### The motivation:
-I believe that we need to "free" the NNs, if we want to achieve the success of the CCs.
-
-If we build the NNs in a "smart" way that will no longer need our CCs to carry out the heavy tast of optimizing them, but as to outsource that job to the laws of nature, we can stop finding ways to build ligther optimization tasks, but start working on making smaller neurons, making faster connections... Start the process of scaling the number of neurons in the networks as fast as how we were/are scaling the number of transistors in our computers, achieve the Moore's Law of NNs.
+- I believe that we need to "free" the NNs, if we want to achieve the success of the CCs.
+- If we build the NNs in a "smart" way that will no longer need our CCs to carry out the heavy tast of optimizing them, but as to outsource that job to the laws of nature, we can stop finding ways to build ligther optimization tasks, but start working on making smaller neurons, making faster connections... Start the process of scaling the number of neurons in the networks as fast as how we were/are scaling the number of transistors in our computers, achieve the Moore's Law of NNs.
 
 #### The conjecture:
 The main obstruction is the Global nature of the current successful optimization (learning) algorithms. We state the optimization problem as a system of linear equations to make it easier for the CC and then compromise and polish out edges.
