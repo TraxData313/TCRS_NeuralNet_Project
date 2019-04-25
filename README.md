@@ -28,7 +28,7 @@
 <br>
 <br>
 
-<p><b>Personal notes</b></p>:
+<p><b>Personal notes:</b></p>
 &nbsp; &nbsp; &nbsp; This is what this research is about, and in the section below I'll be tracking its progress.<br>
 <br>
 - Why I work on this?<br>
