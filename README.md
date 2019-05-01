@@ -42,5 +42,5 @@
 
 
 ## 01.May.2019 - Confusion point avoided!
-- Further optimizing the learning algorithm, exporting part of the memory to the connections and running full connections done it! Confusion point has been avoided and now scaling the NN improves the results as predicted.
+- Further optimizing the learning algorithm, exporting part of the memory to the connections and running full connections have done it! Confusion point has been avoided and now scaling the NN improves the results as needed!
 - Test results: https://github.com/TraxData313/TCRS_NeuralNet_Project/blob/master/ConfAvoidedFirstProve.PNG
