@@ -39,3 +39,8 @@
 - Every cell then makes independent prediction, and the final prediction is a weighted sum of the cell predictions, with the weights beeing the Ratings that each cell has. Then the system simulates itself, using the newest prediction as input, to predict the next future value and repeats this process for N times in order to give N future predictions. Once the new, real value comes, every cell check the prediction it made to update its own Rating.
 - Right now it dedicates a whole input array as memory for one input variable, and uses the hidden layers as just combination trackers of that variable, but the main focus is outsorsing the memory job to the hidden layers as well - once the hidden layers are able to act as memory of previous events and also serve as a good input mixing device, the network will be able to work with multiple inputs while keeping correct predictions for all of them.
 - A minor problem with the Predictor right now are prediction spikes for more complex input generators, where the network prediction would spike (for example, temporary predict stock price of 1000 when the prices normally would vary between 100 and 200), yet this is not a fundamental problem, that needs revisiting the concept, but only needs some polishing (like excluding prediction when divisor is small, averaging out over different predictions, normal outlier supressing business).
+
+
+### 01.05.2019 - Confusion point avoided!
+- Further optimizing the learning algorithm, exporting part of the memory to the connections and running full connections done it! Confusion point has been avoided and now scaling the NN improves the results as predicted.
+- Test results: https://github.com/TraxData313/TCRS_NeuralNet_Project/blob/master/ConfAvoidedFirstProve.PNG
