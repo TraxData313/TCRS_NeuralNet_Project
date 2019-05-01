@@ -41,6 +41,6 @@
 - A minor problem with the Predictor right now are prediction spikes for more complex input generators, where the network prediction would spike (for example, temporary predict stock price of 1000 when the prices normally would vary between 100 and 200), yet this is not a fundamental problem, that needs revisiting the concept, but only needs some polishing (like excluding prediction when divisor is small, averaging out over different predictions, normal outlier supressing business).
 
 
-### 01.05.2019 - Confusion point avoided!
+## 01.May.2019 - Confusion point avoided!
 - Further optimizing the learning algorithm, exporting part of the memory to the connections and running full connections done it! Confusion point has been avoided and now scaling the NN improves the results as predicted.
 - Test results: https://github.com/TraxData313/TCRS_NeuralNet_Project/blob/master/ConfAvoidedFirstProve.PNG
