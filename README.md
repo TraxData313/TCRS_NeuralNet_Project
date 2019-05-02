@@ -3,44 +3,42 @@
 - Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines, but yet every NN only successfully exists as a simulation in a CC.
 - Most of the research today is concentrated on optimizing NNs to be a better fit for CCs, or making CCs a better host for NNs.
 
-#### The motivation:
-- I believe that we need to start building stand-alone NNs, if we want to achieve the success of CCs.
-- If we design the NN in a "smart" way, that will no longer require our CCs to carry out the heavy tast of optimizing, but as to outsource that job to the laws of nature, we can start redirecting our effort from building ligther optimization algorithms to scaling the NNs. Making smaller neurons, making faster connections - those are the actions that will start the exponential increase of power of the NNs and initiate the new Moore's Law, this time for cells in the NNs.
+### The Goal:
+- Build a stand-alone, scalable NN from self-similar elements (cells and weights circuits), such that increasing the number of elements in the network will proportionally increase its power.
+- Achieving this will initiate the new Moore's Law, this time of NNs.
 
-#### The conjecture:
-- The main obstruction is the Global nature of the current successful optimization (learning) algorithms. We state the optimization problem as a system of linear equations to make it easier for the CC to compute and then compromise and polish out edges.
-- But in general, to update a weight, one needs to ask the CC to carry out optimization task, "minding" the relation of that one weight with respect to all others. And then the CC needs to do this for all weights to complete one step.
-- If the Global nature of the process is the obstruction, then the solution would be to make a Local process, Local rules that every part of the NN will follow and out of which the Learning, Optimization and Intellect will be able naturally emerge.
+### The obstruction:
+- Current learning and optimization algorithms are Global.
+- Changing a single weight (in the most general case), influences the IO passing through every other weight.
+- If we build a self-optimizing weight, which learns based on this Global mechanism, every weight will have to be connected to every other weight.
+- Network of N weights will, in general, need to have 2^N connections between the weights.
+- So now if we start scaling the NN, with every new weight, every weight will have to compute increasingly more complex equation, having to track how it affects all the other weights to change itself every time.
 
-#### The Confusion Point:
-- It is one of the most important objects of my study, so I'll make a formal definition of it here.
-- <b>Definition:</b> When scaling an NN, which uses a Local learning algorithm, the predictive power (P) of the NN would start increasing with the increase of the NN's scale/complexity (C).The confusion point is the point of C at which P drops. Or:
-    - dP/dC > 0 up to the Confusion point for a given Local learning algorithm
-- When the goal is natural emergence, there is no way around dealing with chaotic behaviour.
+### The solution:
+- Self-similar cells and self-similar weights between them, following the same (Local) rule, every weight keeping track only of the states of the two cells it is connecting, to compute how to change itself, in such a way, that out of the cumulative effect of all connections changing, the Intellect of the system will emerge, and with increase of the size of the system, the Intelect will increase.
+- Normally when scaling an NN, which uses a Local learning algorithm, the prediction error (E) of the NN would start decreasing with the increase of the NN's scale/complexity (C).The confusion point is the point of C at which E increases dramatically. Or:
+- - dE/dC < 0 up to the Confusion point for a given Local learning algorithm. After that E -> max
 
-<br><br>
-# Reseach Progress:
-### The Static Covariant Feedback System</b>:
-- The Static Covariant Feedback System is an ANN-like Logistic Regression System.
-- It uses a Local "covariant" learning algorithm that independently updates weights between the cells:
-- - At cell scale, every neuron records what reward it's receiving given the state of the every other neuron connected to it (Record R(A|B)
-- - Then affects P(B) by modifying the weight that connects them W(AB)
-- This way, even without hidden layers, the NN learns to pass all Naive classification tasks. When hidden layers are added Confusion doesn't occur.
-- The NN fails to learn more complex classification tasks without additional hidden layers (tasks, like when the answer depends not only on the separate inputs, but on specific combinations of them)
-- When adding a hidden layer for the complex classification, cofusion would occur. Adding special connections that allow neurons to supress predecessor neurons when needed, fixes this problem. Currently experimenting on the nature of those connections.
-- Further helping against confusion come additional memory feature of the neuron connections. They keep track of how their source and target neurons co-vary, to supress unnesessary weigh modifications. This was the original concept, hence I named the network "Covariant Feedback System", butam now polishing few edges to be able to fully implement this idea.
-- Further helping against confusion are risk tracking calculations, since every weight modification helps confusion arrise, it's not worth doing a big change on a weight to reduce the change the P(B) if the reward difference on A given B active/notAvtive is not that great.
+### Research Achievements:
+- In my research I’ve been able to find a set of Local learning rules and connection topologies, that allow the scaling of the Network, decreasing the prediction error, while avoiding the Confusion point
+- Based on that I’ve been able to build two types of Neural Networks, The General Classifier and The Predictor
 
+<br>
+<hr>
+<br>
 
-### The Predictor System:
-- The Predictor System is a CNN-like Continuous Regression System.
-- It takes "timestamps" of continuous data, like stock prices, and predicts the values for the next N timestamps (future prices).
-- The learning algorithm is Local, similar to the one used in the Static Covariant Feedback System, but the Cell-to-Cell connections are static (constant weights), and instead every cell uses covariant connection to the newest input.
-- Every cell then makes independent prediction, and the final prediction is a weighted sum of the cell predictions, with the weights beeing the Ratings that each cell has. Then the system simulates itself, using the newest prediction as input, to predict the next future value and repeats this process for N times in order to give N future predictions. Once the new, real value comes, every cell check the prediction it made to update its own Rating.
-- Right now it dedicates a whole input array as memory for one input variable, and uses the hidden layers as just combination trackers of that variable, but the main focus is outsorsing the memory job to the hidden layers as well - once the hidden layers are able to act as memory of previous events and also serve as a good input mixing device, the network will be able to work with multiple inputs while keeping correct predictions for all of them.
-- A minor problem with the Predictor right now are prediction spikes for more complex input generators, where the network prediction would spike (for example, temporary predict stock price of 1000 when the prices normally would vary between 100 and 200), yet this is not a fundamental problem, that needs revisiting the concept, but only needs some polishing (like excluding prediction when divisor is small, averaging out over different predictions, normal outlier supressing business).
+### The General Classifier:
+- The General Classifier is an ANN-like Logistic Regression System
+- The system can be interfaced with Convolution layers or any other special layers to perform any task a general ANN would perform
+- This is “ready to go” system, that achieves the success of Deep Networks, while ready to implement in stand-alone HW
+- It takes N inputs, passes the IO through D hidden layers and provides output out of M possible classes
+- Every cell either fires or not, even if the network suppresses specific cell from firing it still has a chance to fire. Similar to dropout mechanism, that prevents network depending only on a few cells, naturally avoiding overfitting and ensures robustness 
+- Special relation tracking to weight updating rules are applied, such to minimize unnecessary weight updates, avoiding the Confusion point with scaling of the system
 
-
-## 01.May.2019 - Confusion point avoided!
-- Further optimizing the learning algorithm, exporting part of the memory to the connections and running full connections have done it! Confusion point has been avoided and now scaling the NN improves the results as needed!
-- Test results: https://github.com/TraxData313/TCRS_NeuralNet_Project/blob/master/ConfAvoidedFirstProve.PNG
+### The Predictor:
+- The Predictor is a CNN-like Continuous Regression System
+- The predictor is still a prototype system, and in active research. It’s “future-predictive” power combined with the “reaction” and learning power of the General Classifier, would make the Super-Reinforcement Learning Platform
+- The Predictor takes “timestamps” of continuous data and predicts the next one
+- Once the next prediction is made, the Predictor simulates itself with the new prediction as the new input to predict the yet next input
+- This process is repeated for N times, depending how “long” of a prediction is needed
+- Micro and Macro-based Rating systems make sure that the best prediction is made and that every prediction “timestamp” has a proper accuracy probability to it
