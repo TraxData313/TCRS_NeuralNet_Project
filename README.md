@@ -1,12 +1,9 @@
 # Research Description:
 ## Summary:
 - Researching neural network designs, that can be build into the first scalabe artificial brain
-- The General Classifier is the first successfull model that can achieve this
-- - In "General Classifier Demo" folder you can check its performance
-- - I've started implementing it with connected patches of neurons 
-- - Each patch housing 3 neurons and 12 connections into an Arduino Nano
-- - The Nanos can be connected with each other - the more added, the more inteligent the network gets, but the learning cycle time doesn't increase
-- - I'll be uploading progress videos here: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
+- The General Classifier is the first fully working model that can achieve this
+- - More info in "General Classifier Demo" folder
+- - I've started implementing it with arduino nanos, I'll be uploading progress videos here: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
 - The predictor is still a prototype system, and in active research. It’s “future-predictive” power combined with the “reaction” and learning power of the General Classifier, would make the Super-Reinforcement Learning Platform
 
 ## The problem:
