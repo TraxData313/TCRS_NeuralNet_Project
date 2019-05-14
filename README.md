@@ -15,8 +15,8 @@
 
 ## The solution:
 - Self-similar cells and self-similar weights between them, following the same (Local) rule, every weight keeping track only of the states of the two cells it is connecting, to compute how to change itself, in such a way, that out of the cumulative effect of all connections changing, the Intellect of the system will emerge, and with increase of the size of the system, the Intelect will increase.
-- Normally when scaling an NN, which uses a Local learning algorithm, the prediction error (E) of the NN would start decreasing with the increase of the NN's scale/complexity (C).The confusion point is the point of C at which E increases dramatically. Or:
-- - dE/dC < 0 up to the Confusion point for a given Local learning algorithm. After that E -> max
+- Normally when scaling an NN, which uses a Local learning algorithm, the prediction error (E) of the NN would start decreasing with the increase of the NN's scale/complexity (C). The confusion point is the point of C at which the NN loses that behaviour. Or:
+- - dE/dC < 0 up to the Confusion point for a given Local learning algorithm. After that dE/dC >= 0
 
 ## Research Progress:
 - In my research I’ve been able to find a set of Local learning rules and connection topologies, that allow the scaling of the Network, decreasing the prediction error, while avoiding the Confusion point
