@@ -26,8 +26,8 @@
 - Currently I'm researching "lighter", working topologies for the General Classifier and I've also started the process of finding the first "Host" HW to start building an artificial brain. I'll be uploading videos here: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
 
 <br>
-<hr>
 <br>
+<hr>
 <br>
 <br>
 
