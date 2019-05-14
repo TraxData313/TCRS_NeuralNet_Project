@@ -1,9 +1,4 @@
 # Research Description:
-## Summary:
-- The General Classifier is the first fully working, scalable model that can be implemented into its own HW
-- - More info in "General Classifier Demo" folder
-- - I've started implementing it with arduino nanos, I'll be uploading progress videos here: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
-- The predictor is still a prototype system, and in active research. It’s “future-predictive” power combined with the “reaction” and learning power of the General Classifier, would make the Super-Reinforcement Learning Platform
 
 ## The problem:
 - Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines, but yet every NN only successfully exists as a simulation in a CC.
