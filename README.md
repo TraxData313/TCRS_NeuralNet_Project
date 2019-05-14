@@ -1,11 +1,8 @@
-# Research Description:
-<br>
-
 ## The problem:
 - Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines, but yet every NN only successfully exists as a simulation in a CC.
 - Most of the research today is concentrated on optimizing NNs to be a better fit for CCs, or making CCs a better host for NNs.
 
-## The Goal:
+## The Research Goal:
 - Build a stand-alone, scalable NN from self-similar elements (cells and weights circuits), such that increasing the number of elements in the network will proportionally increase its power, avoiding exponentially increasing learning time.
 - Achieving this will initiate the new Moore's Law, this time of NNs.
 
