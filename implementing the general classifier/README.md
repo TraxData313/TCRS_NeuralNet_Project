@@ -6,7 +6,7 @@
 <br>
 
 ## Progress:
-### 15.May.2019:
+#### 15.May.2019:
 - Implementaition roadmap is compleated, today I'm starting to methodically build the first neuron patch
 - Created the initial test board with two Arduino Nanos
 - One nano is meanth to be the clock and the other is a neuron patch
