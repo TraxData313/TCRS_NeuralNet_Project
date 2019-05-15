@@ -1,0 +1,44 @@
+/*
+  CLOCK CODE:
+  - INPUTS: 9, 10, 11
+  - OUTPUTS: 2, 3, 4
+  NOTE: Inputs are attached to ground with 360 Ohm R to ground
+*/
+// - PINS:
+const int inputPin1  = 9;
+const int inputPin2  = 10;
+const int inputPin3  = 11;
+const int outputPin1 = 2;
+const int outputPin2 = 3;
+const int outputPin3 = 4;
+const int clockPin = 12;
+
+// - Variables and constants:
+const int delay_time = 1000;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(clockPin, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+  // - Define the input pins:
+  pinMode(inputPin1, INPUT);
+  pinMode(inputPin2, INPUT);
+  pinMode(inputPin3, INPUT);
+  // - Define the output pins:
+  pinMode(outputPin1, OUTPUT);
+  pinMode(outputPin2, OUTPUT);
+  pinMode(outputPin3, OUTPUT);
+}
+
+
+void loop() {
+  // - CLOCK 0:
+  digitalWrite(clockPin, HIGH);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(delay_time);
+
+// - CLOCK 1:
+  digitalWrite(clockPin, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(delay_time);
+}
