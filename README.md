@@ -21,7 +21,7 @@
 ## Research Progress:
 - In my research I’ve been able to find a set of Local learning rules and connection topologies, that allow the scaling of the Network, decreasing the prediction error, while avoiding the Confusion point
 - Based on that I’ve been able to build two types of Neural Networks, The General Classifier and The Predictor
-- Currently I'm researching "lighter", working topologies for the General Classifier and I've also started the process of finding the first "Host" HW to start building an artificial brain. I'll be uploading videos here: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
+- Currently I'm researching "lighter", working topologies for the General Classifier and I've also started the process of finding the first "Host" HW to start building an artificial brain. I'll be logging my progress in the "<b>implementing the general classifier</b>" folder.
 
 <br>
 <br>
