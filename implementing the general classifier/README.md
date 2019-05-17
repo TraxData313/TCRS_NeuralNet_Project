@@ -38,5 +38,6 @@
 - If I use that old breadboard I have, the signal would fail somewhere on the breadboard... I keep patching it with additional wires when I find somewhere the signal failing, but I gave up on that yesterday
 - Today I tried attaching the two arduinos directly - failed to get all signals going ok, but, of course, the input pins are not pulled down, and the possibility of the issue comming from interfierence is preventing me from any troubleshooting
 - - Signal interference problem video: https://www.youtube.com/watch?v=Xoc0MXqBUcI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=4
-- I have one more smaller breadboard which works fine, but I can't get the two arduinos on it.
+- I have one more half-size breadboard which works fine, but I can't get the two arduinos on it.
 - At this point I have to wait for additional parts to arrive. They will most likely start arriving in June
+- Waiting for some about 15 more arduino nanos, some 20 half-size breadboards, jumperwires and resistors. Orders are distributed in patches from different selles.
