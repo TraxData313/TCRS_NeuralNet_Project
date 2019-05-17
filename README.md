@@ -3,18 +3,18 @@
 - Most of the research today is concentrated on optimizing NNs to be a better fit for CCs, or making CCs a better host for NNs.
 
 ## The Research Goal:
-- Build a stand-alone, scalable NN from self-similar elements (cells and weights circuits), such that increasing the number of elements in the network will proportionally increase its power, avoiding exponentially increasing learning time.
+- Build a stand-alone, scalable NN from self-similar elements (cells and weights circuits), such that increasing the number of elements in the network will proportionally increase its power, but keeping the learning time unchanged.
 - Achieving this will initiate the new Moore's Law, this time of NNs.
 
 ## The obstruction:
 - Current learning and optimization algorithms are Global.
-- Changing a single weight (in the most general case), influences the IO passing through every other weight.
-- If we build a self-optimizing weight, which learns based on this Global mechanism, every weight will have to be connected to every other weight.
-- Network of N weights will, in general, need to have 2^N connections between the weights.
-- So now if we start scaling the NN, with every new weight, every weight will have to compute increasingly more complex equation, having to track how it affects all the other weights to change itself every time.
+- Changing a single weight , influences the IO passing through every other successor weight.
+- If we build a self-optimizing weight, which learns based on this Global mechanism, in general, every weight will have to be connected to every other weight.
+- Network of N weights will need to have 2^N connections between the weights.
+- So now if we start scaling the NN, with every new weight, every weight will have to compute increasingly more complex equation, having to track how it affects all the other weights to change itself every time, making the learning time exponential with the network size.
 
 ## The solution:
-- Self-similar cells and self-similar weights between them, following the same (Local) rule, every weight keeping track only of the states of the two cells it is connecting, to compute how to change itself, in such a way, that out of the cumulative effect of all connections changing, the Intellect of the system will emerge, and with increase of the size of the system, the Intelect will increase.
+- Self-similar cells and self-similar weights, following the same (Local) rules, every weight keeping track only of the states of the two cells it is connecting, to compute how to change itself, in such a way, that out of the cumulative effect of all connections changing, the Intellect of the system will emerge, and with the increase of the size of the system, the Intelect will increase.
 - Normally when scaling an NN, which uses a Local learning algorithm, the prediction error (E) of the NN would start decreasing with the increase of the NN's scale/complexity (C). The confusion point is the point of C at which the NN loses that behaviour. Or:
 - - dE/dC < 0 up to the Confusion point for a given Local learning algorithm. After that dE/dC >= 0
 
