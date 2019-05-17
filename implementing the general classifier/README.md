@@ -32,6 +32,7 @@
 - - video: https://www.youtube.com/watch?v=-4kGPE0uygs&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=3
 
 #### 17.May.2019:
+- Code used: 13_IOandClock.txt
 - Progress halted again by the signal transmititng problem - can't get all 7 signals to transmit properly from the clock to the neuron patch arduino without disturbance;
 - - 7 signals: I'm right now trying to get signal going ok between 3 inputs, 3 outputs and a clock per arduino
 - If I use that old breadboard I have, the signal would fail somewhere on the breadboard... I keep patching it with additional wires when I find somewhere the signal failing, but I gave up on that yesterday
