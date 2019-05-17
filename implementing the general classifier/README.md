@@ -5,6 +5,7 @@
 ## Overall progress:
 - Pre-testing confirms the learnig algorithm working, and the nano having enough memory to handle 3 cells with 36 connections.
 - 15.May.2019: Pre-testing done. Clock and neuron patch IO and clock sync tests done
+- 17.May.2019: Progress halted. Waiting for parts.
 
 <br>
 <hr>
@@ -29,3 +30,11 @@
 - Test1 - 11_IOtest.txt: made sure the IO connections are working alright
 - Test2 - 12_ClockSync.txt: made sure the neuron patch follows the bool clock signal
 - - video: https://www.youtube.com/watch?v=-4kGPE0uygs&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=3
+
+#### 17.May.2019:
+- Progress halted again by the signal transmititng problem - can't get all 7 signals to transmit properly from the clock to the neuron patch arduino without disturbance;
+- - 7 signals: I'm right now trying to get signal going ok between 3 inputs, 3 outputs and a clock per arduino
+- If I use that old breadboard I have, the signal would fail somewhere on the breadboard... I keep patching it with additional wires when I find somewhere the signal failing, but I gave up on that yesterday
+- Today I tried attaching the two arduinos directly - failed to get all signals going ok, but, of course, the input pins are not pulled down, and the possibility of the issue comming from interfierence is preventing me from any troubleshooting
+- - Video of this fail:
+- At this point I have to wait for additional parts to arrive. They will most likely start arriving in June
