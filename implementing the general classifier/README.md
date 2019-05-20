@@ -22,6 +22,8 @@
 - If not the irritating bugs, the system proves very stable as expected. Specific inputs can fail, but even with a few still working, the system leanrs.
 - The inputs can be physically removed and switch with one another without powering off to racable, and the system re-learns, adapts to the new situation.
 
+<br>
+
 #### 15.May.2019:
 - Today I'm starting to methodically build the first neuron patch, slowly adding feature by feature, testing it extensively to make reduce possible bugs as much as possible
 - Created the initial test board with two Arduino Nanos
@@ -30,6 +32,8 @@
 - Test1 - 11_IOtest.txt: made sure the IO connections are working alright
 - Test2 - 12_ClockSync.txt: made sure the neuron patch follows the bool clock signal
 - - video: https://www.youtube.com/watch?v=-4kGPE0uygs&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=3
+
+<br>
 
 #### 17.May.2019:
 - Code used: 13_IOandClock.txt
@@ -41,6 +45,8 @@
 - I have one more half-size breadboard which works fine, but I can't get the two arduinos on it.
 - At this point I have to wait for additional parts to arrive. They will most likely start arriving in June
 - Waiting for some about 15 more arduino nanos, some 20 half-size breadboards, jumperwires and resistors. Orders are distributed in patches from different selles.
+
+<br>
 
 #### 20.May.2019:
 - Started testing Raspberry PI as the clock and Arduino Nano as a neuron patch:
