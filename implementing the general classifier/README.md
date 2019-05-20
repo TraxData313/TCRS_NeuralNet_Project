@@ -47,3 +47,4 @@
 - - Clock: piclock12_ClockSync.py
 - - Patch: patch12_ClockSync.txt
 - Setup Raspberry Pi. Tested passing the clock signal from the Pi to the Arduino - they seem compatible for now.
+- - Video: https://www.youtube.com/watch?v=XbsuLQ8ncGA&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=5
