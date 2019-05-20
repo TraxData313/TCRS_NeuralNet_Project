@@ -52,4 +52,4 @@
 - Test2 - IO between wires:
 - - Clock: piclock11_IOtest.py
 - - Patch: patch11_IOtest.txt
-- - IO is working with no disturbances. Raspberry build in pull down resistors help by a lot. Test passed.
+- - IO is working with no disturbances. Raspberry build in pull down resistors are very useful. Test passed.
