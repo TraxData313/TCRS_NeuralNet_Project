@@ -41,3 +41,9 @@
 - I have one more half-size breadboard which works fine, but I can't get the two arduinos on it.
 - At this point I have to wait for additional parts to arrive. They will most likely start arriving in June
 - Waiting for some about 15 more arduino nanos, some 20 half-size breadboards, jumperwires and resistors. Orders are distributed in patches from different selles.
+
+#### 20.May.2019:
+- Code used:
+- - Clock: piclock12_ClockSync.py
+- - Patch: patch12_ClockSync.txt
+- Setup Raspberry Pi. Tested passing the clock signal from the Pi to the Arduino - they seem compatible for now.
