@@ -53,3 +53,11 @@
 - - Clock: piclock11_IOtest.py
 - - Patch: patch11_IOtest.txt
 - - IO is working with no disturbances. Raspberry build in pull down resistors are very useful. Test passed.
+- Test3 - IO and Clock:
+- - Clock: piclock13_IOandClock.py
+- - Patch: patct13_IOandClock.txt
+- - The devices sync with the clock bus. 
+- - On low clock Pi provides 3 outputs and Nano reads them. 
+- - On high clock Nano provides 3 outputs (output = input) and Pi reads them.
+- - For now no signal interuptions or interfierence detected. I'll be able to start testing the learning algorithm now, hopefully without any more electric IO problems.
+- - Video: https://www.youtube.com/watch?v=TR9WXc85d60&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=6
