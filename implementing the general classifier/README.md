@@ -43,8 +43,13 @@
 - Waiting for some about 15 more arduino nanos, some 20 half-size breadboards, jumperwires and resistors. Orders are distributed in patches from different selles.
 
 #### 20.May.2019:
-- Code used:
+- Started testing Raspberry PI as the clock and Arduino Nano as a neuron patch:
+- Test1 - Clock Sync:
 - - Clock: piclock12_ClockSync.py
 - - Patch: patch12_ClockSync.txt
-- Setup Raspberry Pi. Tested passing the clock signal from the Pi to the Arduino - they seem compatible for now.
+- - Setup Raspberry Pi. Tested passing the clock signal from the Pi to the Arduino - test passed.
 - - Video: https://www.youtube.com/watch?v=XbsuLQ8ncGA&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=5
+- Test2 - IO between wires:
+- - Clock: piclock11_IOtest.py
+- - Patch: patch11_IOtest.txt
+- - IO is working with no disturbances. Raspberry build in pull down resistors help by a lot. Test passed.
