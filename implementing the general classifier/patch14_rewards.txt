@@ -62,7 +62,7 @@ void loop() {
   }
   reward_negative = sum/700000;
 
-  Serial.print("- Reward (-): ");
+  Serial.print("- Reward (+): ");
   Serial.println(reward_positive);
   Serial.print("- Reward (-): ");
   Serial.println(reward_negative);
