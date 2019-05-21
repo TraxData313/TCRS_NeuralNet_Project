@@ -84,4 +84,5 @@
 
 #### 21.May.2019:
 - Inventory log:
-- - 25 half-size breadboards arrived: https://github.com/TraxData313/TCRS_NeuralNet_Project/blob/master/implementing%20the%20general%20classifier/breadboards_21.May.2019.JPG
+- - 25 half-size breadboards arrived
+- - Pic: breadboards_21.May.2019.JPG
