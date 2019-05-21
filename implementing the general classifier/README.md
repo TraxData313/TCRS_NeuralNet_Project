@@ -73,3 +73,6 @@
 - When don't analog read from the Arduino on that output from the Pi, it would get high or low. To fix that, I do 1k measurments and take the average
 - The reading on the arduino is between 33 and 707 -> reading = (reading - 33)/700 or just reading = reading/700 to get it in range somewhat between 0 and 1
 - Now having the (-) and (+) reward busses, the final reward = reward_positive - reward_negative, -1 < reward < 1
+- Code used:
+- - patch14_rewards.txt
+- - piclock14_rewards.py
