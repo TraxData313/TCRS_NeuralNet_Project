@@ -65,5 +65,11 @@
 - - The devices sync with the clock bus. 
 - - On low clock Pi provides 3 outputs and Nano reads them. 
 - - On high clock Nano provides 3 outputs (output = input) and Pi reads them.
-- - For now no signal interuptions or interfierence detected. I'll be able to start testing the learning algorithm now, hopefully without any more electric IO problems.
+- - For now no signal interuptions or interfierence detected. I'll be able to start testing the learning algorithm now, hopefully without any more electric IO problems. (CORRECTION: need to test transmitting the rewards as well!)
 - - Video: https://www.youtube.com/watch?v=TR9WXc85d60&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=6
+
+#### 21.May.2019:
+- The reward needs to be int (not bool), but Raspberry doesn't have analog outputs. Instead I can turn the pin on and off with specific Hz using GPIO.PWM(pin,Hz)
+- When don't analog read from the Arduino on that output from the Pi, it would get high or low. To fix that, I do 1k measurments and take the average
+- The reading on the arduino is between 33 and 707 -> reading = (reading - 33)/700 to get it in range somewhat between 0 and 1
+- Now having the (-) and (+) reward busses, the final reward = reward_positive - reward_negative, -1 < reward < 1
