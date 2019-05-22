@@ -81,7 +81,7 @@ try:
         # - CLOCK 1:
         # -- Set the clock to 1:
         GPIO.output(7,GPIO.HIGH)
-        sleep(0.001) # 1ms delay
+        sleep(0.005) # 5ms delay: arduino delays 1ms for each output!
         
         # -- Measire the inputs:
         input_F_vector[0] = GPIO.input(36)
