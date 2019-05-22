@@ -86,3 +86,12 @@
 - Inventory log:
 - - 25 half-size breadboards arrived
 - - Pic: breadboards_21.May.2019.JPG
+
+<br>
+
+#### 22.May.2019:
+- Full Clock, Reward and IO test
+- Raspberry sends output, Arduino reads, copies it and sends it back, Raspberry compares the input with the original output and if correct gives positive reward, else gives negative reward. Both devices sync on the clock signal.
+- Code used:
+- - patch15_ClockRewardIO.txt
+- - piclock15_ClockRewardIO.py
