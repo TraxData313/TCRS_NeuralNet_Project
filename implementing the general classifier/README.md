@@ -19,8 +19,8 @@
 - I've uploaded two "pre-testing" videos:
 - - https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=1
 - - https://www.youtube.com/watch?v=qMZxi_VgzKk&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=2
-- If not the irritating bugs, the system proves very stable as expected. Specific inputs can fail, but even with a few still working, the system leanrs.
-- The inputs can be physically removed and switch with one another without powering off to racable, and the system re-learns, adapts to the new situation.
+- If not the few IO bugs, the system proves very stable as expected. Specific inputs can fail, but even with a few still working, the system leanrs.
+- The inputs can be physically removed and switch with one another without powering off to recable, and the system re-learns, adapts to the new situation.
 
 <br>
 
