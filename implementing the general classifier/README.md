@@ -111,6 +111,7 @@
 0.0 0.0 0.0  
 -0.47 -0.74 1.14  
 -0.84 1.02 -1.20 
+- NOTE: When the cloch Hz get lower, the analog outputs start failing (when sleep_time param < 0.3)
 - Used code:
 - - piclock17_trivialAndSimpleTests.py
 - - patch16_working3v3.txt
