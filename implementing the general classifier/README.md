@@ -108,6 +108,7 @@
 - - If output=[0,1,0], answer=[1,0,0]
 - - Also passes this test:
 - - Weights look like this:
+<br>
 0.0 0.0 0.0  
 -0.47 -0.74 1.14  
 -0.84 1.02 -1.20 
