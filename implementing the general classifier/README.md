@@ -96,6 +96,8 @@
 - - patch15_ClockRewardIO.txt
 - - piclock15_ClockRewardIO.py
 
+<br>
+
 #### 26.May.2019:
 - Uploaded the learning algorithm on the nano and tested with the trivial test - passes, weights learning is as expected
 - Trivial test: passing constant input to the neuron patch, and the expected answer (output) is also constant
