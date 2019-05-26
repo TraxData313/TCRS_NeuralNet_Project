@@ -106,7 +106,7 @@
 - <b>Simple test</b>: answer depents on output - also passes this test
 - - If output=[1,0,0], answer=[0,1,0]
 - - If output=[0,1,0], answer=[1,0,0]
-- - Weights look like this: 
+- - Sample weight convergence: 
 
 0.0 0.0 0.0  
 -0.47 -0.74 1.14  
