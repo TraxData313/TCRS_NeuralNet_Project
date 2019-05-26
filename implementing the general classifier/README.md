@@ -101,6 +101,7 @@
 #### 26.May.2019:
 - Uploaded the learning algorithm on the nano and tested with the trivial test - passes, weights learning is as expected
 - Trivial test: passing constant input to the neuron patch, and the expected answer (output) is also constant
+- NOTE: Blue LED on the arduino is programed to be on when recieving positive reward
 - Video: https://www.youtube.com/watch?v=_1S2kqyMNh4&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9&index=9
 - Used code:
 - - piclock17_trivialAndSimpleTests.py
