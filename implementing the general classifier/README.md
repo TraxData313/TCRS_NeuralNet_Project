@@ -116,3 +116,8 @@
 - - piclock17_trivialAndSimpleTests.py
 - - patch16_working3v3.txt
 
+
+<br>
+
+#### 07.Jun.2019:
+- Finished the extended learning algorithm
