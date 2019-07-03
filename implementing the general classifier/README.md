@@ -121,3 +121,6 @@
 
 #### 07.Jun.2019:
 - Finished the extended learning algorithm
+
+#### 03.Jul.2019:
+- Project is temp on hold
