@@ -14,3 +14,5 @@
 ### Real-Life Tests (part 2):
 - Categorise wines
 - Will the bank client churn test
+
+#### Check the "GeneralClassifier_GitHub" folder for the current full version of the General Classifier
