@@ -9,8 +9,8 @@
 - Open the demo_review_part1.html in your browser to view the demo
 - Download the files and run demo_review_part1.ipynb in Jupyter Notebook to test changing the parameters
 - Or download the files and run the demo_review_part1_inCLI.py to run the test in your OS CLI
-- NOTE: To perform the tests yourself you will need the ClassifierDemo.py module. I will not post it here, so please contact me @ antongeorgiev313@gmail.com if you are interested!
+- NOTE: To perform the tests yourself you will need the ClassifierDemo.py and utilsDemo.py modules.
 
 ### Real-Life Tests (part 2):
-- Famous categorise wines test
+- Categorise wines
 - Will the bank client churn test
