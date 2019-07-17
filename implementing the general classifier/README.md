@@ -122,5 +122,9 @@
 #### 07.Jun.2019:
 - Finished the extended learning algorithm
 
-#### 03.Jul.2019:
-- Project is temp on hold
+<br>
+
+#### 17.Jul.2019:
+- All parts have already arrived (arduinos, cables, resistors...)
+- Only thing left is the power supply. Looking for suitable power supply...
+
