@@ -22,6 +22,7 @@
 - In my research I’ve been able to find a set of Local learning rules and connection topologies, that allow the scaling of the Network, decreasing the prediction error, while avoiding the Confusion point
 - Based on that I’ve been able to build two types of Neural Networks, The General Classifier and The Predictor
 - Currently I'm researching "lighter", working topologies for the General Classifier and I've also started the process of finding the first "Host" HW to start building an artificial brain. I'll be logging my progress in the "<b>implementing the general classifier</b>" folder.
+- Also currently researching a way to massively expanding the input space of every cell by encoding information into permutations of the input. Right now looking for the possible distance metrics and how the method with which the cell "chooses" one in order to maximixe usefullness.
 
 <br>
 <br>
@@ -36,7 +37,8 @@
 - It takes N inputs, passes the IO through D hidden layers and provides output out of M possible classes
 - Every cell either fires or not, even if the network suppresses specific cell from firing it still has a chance to fire. Similar to dropout mechanism, that prevents network depending only on a few cells, naturally avoiding overfitting and ensures robustness 
 - Special relation tracking to weight updating rules are applied, such to minimize unnecessary weight updates, avoiding the Confusion point with scaling of the system
-- To do a Demo of the Classifier, go to the <b>"General Classifier Demo"</b> folder
+- First (demo) of the Classifier, go to the <b>"General Classifier Demo"</b> folder
+- Code, tests and a Jupyter review are uploaded in <b>"GeneralClassifier_GitHub"</b> folder
 
 ## The Predictor:
 - The Predictor is a continuous data Regression System
