@@ -2,11 +2,6 @@
 - I will upload the HW implementation progress here, and generally won't be typo hunting, checking it there is missing context or rewriting text to make it preatty. 
 - If somebody else is tracking this log - please have that in mind. If something is confisung, please do not hesitate to contact me.
 
-## Overall progress:
-- Pre-testing confirms the learnig algorithm working, and the nano having enough memory to handle 3 cells with 36 connections.
-- 15.May.2019: Pre-testing done. Clock and neuron patch IO and clock sync tests done
-- 17.May.2019: Progress halted. Waiting for parts.
-
 <br>
 <hr>
 <br>
@@ -24,7 +19,7 @@
 
 <br>
 
-#### 15.May.2019:
+#### Update:
 - Today I'm starting to methodically build the first neuron patch, slowly adding feature by feature, testing it extensively to make reduce possible bugs as much as possible
 - Created the initial test board with two Arduino Nanos
 - One nano is meanth to be the clock and the other is a neuron patch
@@ -35,7 +30,7 @@
 
 <br>
 
-#### 17.May.2019:
+#### Update:
 - Code used: 13_IOandClock.txt
 - Progress halted again by the signal transmititng problem - can't get all 7 signals to transmit properly from the clock to the neuron patch arduino without disturbance;
 - - 7 signals: I'm right now trying to get signal going ok between 3 inputs, 3 outputs and a clock per arduino
@@ -48,7 +43,7 @@
 
 <br>
 
-#### 20.May.2019:
+#### Update:
 - Started testing Raspberry PI as the clock and Arduino Nano as a neuron patch:
 - Test1 - Clock Sync:
 - - Clock: piclock12_ClockSync.py
@@ -70,7 +65,7 @@
 
 <br>
 
-#### 21.May.2019:
+#### Update:
 - The reward needs to be int (not bool), but Raspberry doesn't have analog outputs. Instead I can turn the pin on and off with specific Hz using GPIO.PWM(pin,Hz)
 - When don't analog read from the Arduino on that output from the Pi, it would get high or low. To fix that, I do 1k measurments and take the average
 - The reading on the arduino is between 33 and 707 -> reading = (reading - 33)/700 or just reading = reading/700 to get it in range somewhat between 0 and 1
@@ -82,14 +77,14 @@
 
 <br>
 
-#### 21.May.2019:
+#### Update:
 - Inventory log:
 - - 25 half-size breadboards arrived
 - - Pic: breadboards_21.May.2019.JPG
 
 <br>
 
-#### 22.May.2019:
+#### Update:
 - Full Clock, Reward and IO test
 - Raspberry sends output, Arduino reads, copies it and sends it back, Raspberry compares the input with the original output and if correct gives positive reward, else gives negative reward. Both devices sync on the clock signal.
 - Code used:
@@ -98,7 +93,7 @@
 
 <br>
 
-#### 26.May.2019:
+#### Update:
 - Uploaded the learning algorithm on the nano and tested with the trivial test - passes, weights learning is as expected
 - <b>Trivial test</b>: passing constant input to the neuron patch, and the expected answer (output) is also constant
 - NOTE: Blue LED on the arduino is programed to be on when recieving positive reward
@@ -119,12 +114,12 @@
 
 <br>
 
-#### 07.Jun.2019:
+#### Update:
 - Finished the extended learning algorithm
 
 <br>
 
-#### 17.Jul.2019:
+#### Update:
 - All parts have already arrived (arduinos, cables, resistors...)
 - Only thing left is the power supply. Looking for suitable power supply...
 
