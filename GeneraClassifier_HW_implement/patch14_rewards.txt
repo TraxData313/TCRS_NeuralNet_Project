@@ -1,0 +1,70 @@
+#include <FreqMeasure.h>
+
+/*
+PATCH CODE:
+- INPUTS: 9, 10, 11
+- OUTPUTS: 2, 3, 4
+- REWARD (-): A0
+- REWARD (+): A1
+*/
+// - PINS:
+const int inputPin1  = 9;
+const int inputPin2  = 10;
+const int inputPin3  = 11;
+const int outputPin1 = 2;
+const int outputPin2 = 3;
+const int outputPin3 = 4;
+const int clockPin = 12;
+
+// - Variables and constants:
+int i; 
+float sum;
+bool clockBool = 1;
+const int input_size = 3;
+const int output_size = 3;
+bool input_F_vector[input_size];
+bool output_F_vector[input_size];
+float reward_positive, reward_negative;
+
+
+void setup() {
+  Serial.begin(9600);
+  FreqMeasure.begin();
+  
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(clockPin, INPUT);
+  // - Define the input pins:
+  pinMode(inputPin1, INPUT);
+  pinMode(inputPin2, INPUT);
+  pinMode(inputPin3, INPUT);
+  // - Define the output pins:
+  pinMode(outputPin1, OUTPUT);
+  pinMode(outputPin2, OUTPUT);
+  pinMode(outputPin3, OUTPUT);
+  
+  digitalWrite(outputPin1, HIGH);
+  digitalWrite(outputPin2, HIGH);
+  digitalWrite(outputPin3, HIGH);
+}
+
+void loop() {
+  Serial.println(" ");
+  
+  sum = 0;
+  for(i=0;i<1000;i++){
+    sum += analogRead(A0);
+  }
+  reward_positive = sum/700000;
+
+  sum = 0;
+  for(i=0;i<1000;i++){
+    sum += analogRead(A1);
+  }
+  reward_negative = sum/700000;
+
+  Serial.print("- Reward (+): ");
+  Serial.println(reward_positive);
+  Serial.print("- Reward (-): ");
+  Serial.println(reward_negative);
+  delay(500);
+  }

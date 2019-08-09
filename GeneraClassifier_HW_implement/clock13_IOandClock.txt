@@ -1,0 +1,90 @@
+/*
+  CLOCK CODE:
+  - INPUTS: 9, 10, 11
+  - OUTPUTS: 2, 3, 4
+  NOTE: Inputs are attached to ground with 360 Ohm R to ground
+*/
+// - PINS:
+const int inputPin1  = 9;
+const int inputPin2  = 10;
+const int inputPin3  = 11;
+const int outputPin1 = 2;
+const int outputPin2 = 3;
+const int outputPin3 = 4;
+const int clockPin = 12;
+
+// - Variables and constants:
+const int delay_time = 1000;
+const int input_size = 3;
+const int output_size = 3;
+bool input_F_vector[input_size];
+bool output_F_vector[input_size];
+int i;
+bool is_diffrent;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(clockPin, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+  // - Define the input pins:
+  pinMode(inputPin1, INPUT);
+  pinMode(inputPin2, INPUT);
+  pinMode(inputPin3, INPUT);
+  // - Define the output pins:
+  pinMode(outputPin1, OUTPUT);
+  pinMode(outputPin2, OUTPUT);
+  pinMode(outputPin3, OUTPUT);
+}
+
+
+void loop() {
+  // - CLOCK 0:
+  digitalWrite(clockPin, HIGH);
+  
+  // -- Set the output vector:
+  output_F_vector[0] = 1;
+  output_F_vector[1] = 0;
+  output_F_vector[2] = 1;
+  
+  // -- Provide output:
+  digitalWrite(outputPin1, output_F_vector[0]);
+  digitalWrite(outputPin2, output_F_vector[1]);
+  digitalWrite(outputPin3, output_F_vector[2]);
+  Serial.println("- Outputs:");
+  Serial.println(output_F_vector[0]);
+  Serial.println(output_F_vector[1]);
+  Serial.println(output_F_vector[2]);
+  
+  // - Delay:
+  delay(delay_time);
+
+// - CLOCK 1:
+  digitalWrite(clockPin, LOW);
+  digitalWrite(LED_BUILTIN, LOW);
+  // -- Get input:
+  input_F_vector[0] = digitalRead(inputPin1); delay(1);
+  input_F_vector[1] = digitalRead(inputPin2); delay(1);
+  input_F_vector[2] = digitalRead(inputPin3); delay(1);
+  Serial.println("- Inputs:");
+  Serial.println(input_F_vector[0]);
+  Serial.println(input_F_vector[1]);
+  Serial.println(input_F_vector[2]);
+
+  
+  // -- Turn LED on if input = output
+  // --- Compare the input and output:
+  is_diffrent = 0;
+  for (i=0; i<input_size; i++){
+    if (input_F_vector[i] == output_F_vector[i]){
+      is_diffrent = 1;
+    }
+  }
+  // --- If the inputs and outputs are the same, turn on the LED:
+  if (is_diffrent == 0){
+    digitalWrite(LED_BUILTIN, HIGH);
+  }else{
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  
+  delay(delay_time);
+}

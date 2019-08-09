@@ -1,0 +1,72 @@
+/*
+PATCH CODE:
+- INPUTS: 9, 10, 11
+- OUTPUTS: 2, 3, 4
+*/
+// - PINS:
+const int inputPin1  = 9;
+const int inputPin2  = 10;
+const int inputPin3  = 11;
+const int outputPin1 = 2;
+const int outputPin2 = 3;
+const int outputPin3 = 4;
+const int clockPin = 12;
+
+// - Variables and constants:
+int i;
+bool clockBool = 1;
+const int input_size = 3;
+const int output_size = 3;
+bool input_F_vector[input_size];
+bool output_F_vector[input_size];
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(clockPin, INPUT);
+  // - Define the input pins:
+  pinMode(inputPin1, INPUT);
+  pinMode(inputPin2, INPUT);
+  pinMode(inputPin3, INPUT);
+  // - Define the output pins:
+  pinMode(outputPin1, OUTPUT);
+  pinMode(outputPin2, OUTPUT);
+  pinMode(outputPin3, OUTPUT);
+  
+  digitalWrite(outputPin1, HIGH);
+  digitalWrite(outputPin2, HIGH);
+  digitalWrite(outputPin3, HIGH);
+}
+
+void loop() {
+  Serial.println(" ");
+  clockBool = digitalRead(clockPin); delay(1);
+  Serial.print("CLOCK: ");
+  Serial.println(clockBool);
+  digitalWrite(LED_BUILTIN, clockBool);
+  
+  if (clockBool == 0){
+    // -- Get input:
+    input_F_vector[0] = digitalRead(inputPin1); delay(1);
+    input_F_vector[1] = digitalRead(inputPin2); delay(1);
+    input_F_vector[2] = digitalRead(inputPin3); delay(1);
+    Serial.println("- Inputs:");
+    Serial.println(input_F_vector[0]);
+    Serial.println(input_F_vector[1]);
+    Serial.println(input_F_vector[2]);
+  }else{
+    // Output vector = Input vector:
+    for (i=0; i<input_size; i++){
+      output_F_vector[i] = input_F_vector[i];
+    }
+    // -- Provide output:
+    digitalWrite(outputPin1, output_F_vector[0]); delay(1);
+    digitalWrite(outputPin2, output_F_vector[1]); delay(1);
+    digitalWrite(outputPin3, output_F_vector[2]); delay(1);
+    Serial.println("- Outputs:");
+    Serial.println(output_F_vector[0]);
+    Serial.println(output_F_vector[1]);
+    Serial.println(output_F_vector[2]);
+  }
+}
