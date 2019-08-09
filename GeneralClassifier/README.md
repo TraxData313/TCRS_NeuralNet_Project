@@ -1,4 +1,4 @@
-## The General Classifier:
+### The General Classifier:
 - The General Classifier is a Reaction (Logistic Regression) System
 - The system can be interfaced with Convolution layers or any other special layers to perform any task a general ANN would perform
 - This is “ready to go” system, that achieves the success of Deep Networks, while ready to implement in stand-alone HW
@@ -11,11 +11,11 @@
 
 <br>
 
-#### The_Alpha_version:
+### The_Alpha_version:
 - The folder contains the first Local Learning algorithm, reviews and tests.
 
 <br> 
 
-#### The_HW_implementation:
+### The_HW_implementation:
 - The folder contains the Arduino based Artificial Brain project information and code
 - Documentation vodeos: https://www.youtube.com/watch?v=nxF3fHxuEEI&list=PLNsnBmVpuum4HeMlcsKfv-_SqI4RB8jL9
