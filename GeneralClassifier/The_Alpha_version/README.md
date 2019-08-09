@@ -1,5 +1,5 @@
 ### INFO:
-- The Classifier Demo is an example of a Neural Network, that uses a simple Local learning rule within the standard NN connection topology
+- The Classifier Alpha is an example of a Neural Network, that uses a simple Local learning rule within the standard NN connection topology
 - The Demo demonstraits how this kind of network can solve the standard classification problem, and points out where and why the Confusion would occure with this simplistic design
 - When equiped with the advanced local learning algorithm and the complex "heavilty-connected" topology, the Classifier can achieve smooth increasing learning curve, even on the hardest tasks
 - Now the research is shifted to implementing the local rules into indentical small circuits, making the first hot-scalable artificial brain (more neurons - more intelect) and experimenting with "lighter" topologies

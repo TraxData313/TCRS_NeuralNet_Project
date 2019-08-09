@@ -37,8 +37,7 @@
 - It takes N inputs, passes the IO through D hidden layers and provides output out of M possible classes
 - Every cell either fires or not, even if the network suppresses specific cell from firing it still has a chance to fire. Similar to dropout mechanism, that prevents network depending only on a few cells, naturally avoiding overfitting and ensures robustness 
 - Special relation tracking to weight updating rules are applied, such to minimize unnecessary weight updates, avoiding the Confusion point with scaling of the system
-- First (demo) of the Classifier, go to the <b>"General Classifier Demo"</b> folder
-- Code, tests and a Jupyter review are uploaded in <b>"GeneralClassifier_GitHub"</b> folder
+- Code, tests, Jupyter notebook review and the HW implementation projects with Arduino Nano are in the <b>"GeneralClassifier"</b> folder
 
 ## The Predictor:
 - The Predictor is a continuous data Regression System
