@@ -252,6 +252,7 @@ class Network:
     # - Update all EFs
     # - Increase the EF_resist
     # - Provide the output
+    # - Update life
     
     # IMPLEMENTATION of Input and Propagate:
     def getInputAndPropagate(self,input_array):
@@ -339,6 +340,9 @@ class Network:
             
         # - Provide the output:
         self.output_F = utils.classOutput(self.output_PF, self.min_PF, self.max_PF)
+        
+        # - Update life:
+        self.life = self.life + 1
     ### END Get Input and Propagate
     ### ### ###
    
