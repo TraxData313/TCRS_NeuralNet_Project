@@ -321,7 +321,6 @@ class Network:
         if self.is_chem_marking == 1:
             for layer in range(self.hidden_count+1):
                 for cell in range(len(self.Chem_list[layer])):
-                    print(self.F_list[layer])
                     if self.F_list[layer][cell] == 1:
                         self.Chem_list[layer][cell] = 1
         
