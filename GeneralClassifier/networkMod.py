@@ -101,17 +101,20 @@ class Network:
         self.max_EF_resist    = 1000
         self.D_resist         = 1000 # stationary connection resistance
         self.is_simple_connected = 0 # if 1 -> no LBC matrices exist
+        self.is_chem_marking  = 0
+        self.chem_decay       = 0.1
         
         # - Variables:
         self.life = 0
         self.EF_resist = self.init_EF_resist 
         
         # - Declare the cell layers:
-        self.F_list  = [] # F  : Fired/notFired : 1/0
-        self.PF_list = [] # PF : Prob(Fire)
-        self.EF_list = [] # EF : MovingAverage(Fire)
-        self.R_list  = [] # R  : Fire*Reward
-        self.ER_list = [] # ER : MovingAverage(Fire*Reward)
+        self.F_list    = [] # F  : Fired/notFired : 1/0
+        self.PF_list   = [] # PF : Prob(Fire)
+        self.EF_list   = [] # EF : MovingAverage(Fire)
+        self.R_list    = [] # R  : Fire*Reward
+        self.ER_list   = [] # ER : MovingAverage(Fire*Reward)
+        self.Chem_list = [] # Marks fired cells
         
         # - Populate the cell layers:
         # -- Populate the input layers:
@@ -125,6 +128,8 @@ class Network:
         self.R_list.append(temp_array)
         temp_array = np.zeros(input_size)
         self.ER_list.append(temp_array)
+        temp_array = np.zeros(input_size)
+        self.Chem_list.append(temp_array)
         # -- Populate the hidden layers:
         for n in range(hidden_count):
             temp_array = np.zeros(hidden_size)
@@ -137,6 +142,8 @@ class Network:
             self.R_list.append(temp_array)
             temp_array = np.zeros(hidden_size)
             self.ER_list.append(temp_array)
+            temp_array = np.zeros(hidden_size)
+            self.Chem_list.append(temp_array)
         
         # - Create the output layer:
         self.output_PF = np.zeros(output_size)
@@ -224,6 +231,7 @@ class Network:
     ### Get Input and Propagate:
     
     # ROADMAP for Input and Propagate:
+    # - Decay the chem markings
     # - Reset Fs
     # - Reset PFs and output layer if is_RNN=0
     # - Reduce the PFs and output layer if is_RNN=1
@@ -240,12 +248,21 @@ class Network:
                 # ---- For input layer F = bound(PF)
                 # ---- For hidden layers decide whether to F | PF
     # - Run LO connections PF[out] += F[n] * LO[n]
+    # - Check the fired cells and update the chem markings
     # - Update all EFs
     # - Increase the EF_resist
     # - Provide the output
     
     # IMPLEMENTATION of Input and Propagate:
     def getInputAndPropagate(self,input_array):
+        # - Decay the chem markings:
+        if self.is_chem_marking == 1:
+            for layer in range(self.hidden_count+1):
+                for cell in range(len(self.Chem_list[layer])):
+                    self.Chem_list[layer][cell] = self.Chem_list[layer][cell] - self.chem_decay
+                    if self.Chem_list[layer][cell] < 0.0:
+                        self.Chem_list[layer][cell] = 0.0
+    
         # - Reset Fs:
         for layer in range(self.hidden_count+1):
             self.F_list[layer] = np.zeros(len(self.F_list[layer]))
@@ -300,6 +317,14 @@ class Network:
         for n in range(self.hidden_count+1):
             self.output_PF += np.dot(self.F_list[n], self.LOC_list[n])
         
+        # - Check the fired cells and update the chem markings:
+        if self.is_chem_marking == 1:
+            for layer in range(self.hidden_count+1):
+                for cell in range(len(self.Chem_list[layer])):
+                    print(self.F_list[layer])
+                    if self.F_list[layer][cell] == 1:
+                        self.Chem_list[layer][cell] = 1
+        
         # - Update all EFs:
         for layer in range(self.hidden_count+1):
             for el in range(len(self.F_list[layer])):
@@ -333,7 +358,10 @@ class Network:
         
         # - Calculate the Rs:
         for layer in range(self.hidden_count+1):
-            self.R_list[layer] = np.multiply(self.F_list[layer], reward)
+            if self.is_chem_marking == 1:
+                self.R_list[layer] = np.multiply(self.Chem_list[layer], reward)
+            else:
+                self.R_list[layer] = np.multiply(self.F_list[layer], reward)
                 
         # - For all connection matrices:
         # -- LLC_list, PF[n+1] += F[n] * LL[n]:
