@@ -1,0 +1,15 @@
+# Ignore personal settings:
+settings.txt
+notes.txt
+test_*
+*.pyc
+
+# Ignore temp files:
+./tempFiles
+
+# Ignore the logs:
+./logs/*
+
+# More:
+__pycache__
+.vscode
