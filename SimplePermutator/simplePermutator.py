@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 ##############
@@ -11,13 +12,45 @@ import numpy as np
 
 class Cell:
     def __init__(self,
-                cell_type=0):
+                cell_type=0,
+                cell_connections = [],
+                cell_connections_numb = 3):
         self.cell_type = cell_type # 0=input, 1=hidden, 2=output
-        self.firedBool = 0
-        self.PF = 0 # Probability of firing (0 < PF < 1)
+        self.firedBool = False
+        self.cell_connections_numb = cell_connections_numb
+        self.cell_connections = cell_connections
+        self.inputs    = [False]*self.cell_connections_numb
+        # - Make the list for the corresponding PF for each permutation (0<PF<1):
+        self.PF_list = np.random.random(2**self.cell_connections_numb)
+        # - Make the list of all input permutations (manual for now):
+        self.permutations = []
+        self.permutations.append([True,True,True])
+        self.permutations.append([True,True,False])
+        self.permutations.append([True,False,False])
+        self.permutations.append([True,False,True])
+        self.permutations.append([False,True,True])
+        self.permutations.append([False,True,False])
+        self.permutations.append([False,False,False])
+        self.permutations.append([False,False,True])
+
+    def get_input(self, bool_inputs):
+        self.inputs = bool_inputs
+
+    def process_input(self):
+        pass # self.firedBool as a func of self.inputs
+        # - Compare the input with the permutations and get its place:
+        for i in range(2**self.cell_connections_numb):
+            if self.inputs == self.permutations[i]:
+                input_perm_place = i
+        # - Fire or not with probability PF[i]:
+        rand_int = random.randint(0,100)/100
+        if self.PF_list[i] > rand_int:
+            self.firedBool = True
+        else:
+            self.firedBool = False
 
     def __repr__(self):
-        return "Type {} cell in {} state".format(self.cell_type, self.firedBool)
+        return "Type {} cell. Fired: {}".format(self.cell_type, self.firedBool)
 # END Class Cell
 ################
 
@@ -27,6 +60,7 @@ class Cell:
 # - Class SimplePermutator:
 # - Creates a permutator object, which houses cells
 # - Manages the syncronization of the cells
+# - NOTE: Reward ranges from 0 to 1, where 0 is most negative, 0.5 is neutral, and 1 is most positive
 
 class SimplePermutator():
 
@@ -41,7 +75,7 @@ class SimplePermutator():
         self.hidden_size  = hidden_size
         self.hidden_count = hidden_count
         self.output_size  = output_size
-        self.cell_connections = 4
+        self.cell_connections_numb = 3
 
         # - Create the cell lists:
         self.input_cells  = []
@@ -56,13 +90,30 @@ class SimplePermutator():
         for i in range(self.hidden_count):
             temp_hidden_cells_list = []
             for j in range(self.hidden_size):
-                temp_hidden_cells_list.append(Cell(1))
+                temp_connections = []
+                # - if first layer:
+                if i == 0:
+                    for k in range(self.input_size):
+                        temp_connections.append(random.randint(0,self.input_size-1))
+                # - for other layers:
+                else:
+                    for k in range(self.hidden_size):
+                        temp_connections.append(random.randint(0,self.hidden_size-1))
+                temp_hidden_cells_list.append(Cell(cell_type=1, cell_connections = temp_connections))
+                print(temp_hidden_cells_list[j].cell_connections)
             self.hidden_cells.append(temp_hidden_cells_list)
 
         # -- Populate the output cells:
         for i in range(self.output_size):
-            self.output_cells.append(Cell(2))
+            temp_connections = []
+            for k in range(self.hidden_size):
+                temp_connections.append(random.randint(0,self.hidden_size-1))
+            self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
+            print(temp_hidden_cells_list[i].cell_connections)
 
+        i = i # supress anoying problem popup that i is not used!
+        j = j
+        k = k
     # END INIT
     ##########
 
@@ -71,16 +122,41 @@ class SimplePermutator():
     # METHODS:
     # - get_input
     # - propagate_signal
+    # -- cell.get_input
+    # -- cell.process_input
     # - read_output_state
     # - read_output_prob
     # - process_reward
 
     def get_input(self, bool_vector):
-        pass
+        if len(bool_vector) != self.input_size:
+            print()
+            print("ERROR: Input bool vector size does not match the input size for this permutator!")
+            print("- input bool vector size:", len(bool_vector))
+            print("- permutator  input_size:", self.input_size)
+            print('- input bool vector contents:', bool_vector)
+            print("- program will brake now...")
+            print()
+        for i in range(self.input_size):
+            self.input_cells[i].firedBool = bool_vector[i]
 
+    # - propagate_signal:
     def propagate_signal(self):
-        pass
-
+        # -- propagate hidden cells:
+        for i in range(self.hidden_count):
+            for j in range(self.hidden_size):
+                bool_inputs = [True, False, True]
+                # -- cell.get_input:
+                self.hidden_cells[i][j].get_input(bool_inputs)
+                # -- cell.process_input:
+                self.hidden_cells[i][j].process_input()
+        # -- propagate output cells:
+        for i in range(self.output_size):
+            # -- cell.get_input:
+            self.output_cells[i].get_input(bool_inputs)
+            # -- cell.process_input:
+            self.output_cells[i].process_input()
+                
     def read_output_state(self):
         pass
     
@@ -97,7 +173,6 @@ class SimplePermutator():
     # Representators:
     # - __repr__
     # - printCells
-
     def __repr__(self):
         return "Simple Permutaror: {} -> {}x{} -> {}".format(self.input_size, 
                                              self.hidden_count, 
