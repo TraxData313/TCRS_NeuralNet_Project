@@ -3,6 +3,9 @@ import random, time
 import utils
 
 
+
+
+
 ##############
 # - Class Cell:
 # - Basic permutator based object
@@ -80,6 +83,9 @@ class Cell:
 
 
 
+
+
+
 ###########################
 # - Class SimplePermutator:
 # - Creates a permutator object, which houses cells
@@ -138,7 +144,6 @@ class SimplePermutator():
                 for k in range(self.cell_connections_numb):
                     temp_connections.append(random.randint(0,self.hidden_size-1))
                 self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-
     # END INIT
     ##########
 
@@ -224,6 +229,20 @@ class SimplePermutator():
                 self.hidden_cells[i][j].process_reward(reward)
         for i in range(self.output_size):
             self.output_cells[i].process_reward(reward)
+
+    def returnOutputPlace(self):
+        # Used instead of read_output_state, choses one output based on higher PF and sets all other outputs to False
+        # - Go though the output probs and pick the higher one:
+        output_place = 0
+        max_PF = 0
+        output_prob = self.read_output_prob()
+        for i in range(len(output_prob)):
+            self.output_cells[i].firedBool = False
+            if self.output_cells[i].PF > max_PF:
+                max_PF = self.output_cells[i].PF
+                output_place = i
+        self.output_cells[output_place].firedBool = True
+        return output_place
 
     def increase_life(self):
         self.life = self.life + 1

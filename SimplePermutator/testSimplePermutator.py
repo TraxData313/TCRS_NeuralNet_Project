@@ -10,7 +10,7 @@ print()
 input_size   = 3
 hidden_size  = 2
 hidden_count = 0
-output_size  = 1
+output_size  = 2
 permutator = SimplePermutator(input_size, hidden_size, hidden_count, output_size)
 print("Create a permutator:")
 print(permutator)
@@ -39,6 +39,14 @@ while True:
     output_prob = permutator.read_output_prob()
     print("Output fire probability:", output_prob)
 
+    # - returnOutputPlace:
+    output_place = permutator.returnOutputPlace()
+    print("Output place:", output_place)
+
+    # - read_output_state:
+    output_state = permutator.read_output_state()
+    print("Output state new:", output_state)
+
     # - process_reward:
     if output_state[0] == True:
         reward = 1
@@ -52,5 +60,5 @@ while True:
     # - Wait:
     print()
     print()
-    time.sleep(0.05)
+    time.sleep(1)
 
