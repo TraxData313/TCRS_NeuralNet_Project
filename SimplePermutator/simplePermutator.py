@@ -106,10 +106,16 @@ class SimplePermutator():
         # -- Populate the output cells:
         for i in range(self.output_size):
             temp_connections = []
-            for k in range(self.hidden_size):
-                temp_connections.append(random.randint(0,self.hidden_size-1))
-            self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-            print(temp_hidden_cells_list[i].cell_connections)
+            if self.hidden_count == 0:
+                for k in range(self.input_size):
+                    temp_connections.append(random.randint(0,self.input_size-1))
+                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
+                print(self.output_cells[i].cell_connections)
+            else:
+                for k in range(self.hidden_size):
+                    temp_connections.append(random.randint(0,self.hidden_size-1))
+                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
+                print(self.output_cells[i].cell_connections)
 
         i = i # supress anoying problem popup that i is not used!
         j = j
