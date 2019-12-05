@@ -23,7 +23,11 @@ class Cell:
         self.cell_connections = cell_connections
         self.inputs    = [False]*self.cell_connections_numb
         self.active_perm_number = 0
-        self.resistance = 10                          # !!!!!!!!!!!!!!!! using hardcoded resistance, need to change it TODO
+        # TODO: automate the resistance assignment:
+        if self.cell_type == 1:
+            self.resistance = 50
+        elif self.cell_type == 2:
+            self.resistance = 10                  
         self.min_PF = 0.01
         self.max_PF = 0.99
         # - Make the list for the corresponding PF for each permutation (0<PF<1):
