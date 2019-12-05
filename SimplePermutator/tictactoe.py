@@ -14,8 +14,8 @@ commentary        = int(controlsList[1]) # 1=on / 0=off
 
 # Parameters:
 number_of_players = 2
-hidden_size       = 10
-hidden_count      = 7
+hidden_size       = 5
+hidden_count      = 1
 #dendrite_resist   = 10
 think_before_move = 1
 reset_cell_values = 0
@@ -152,6 +152,7 @@ while True:
             n = 0
             while n < think_before_move:
                 player_1.get_input(input_move)
+                player_1.propagate_signal()
                 n+=1
                 
             # - Get the output:
@@ -165,94 +166,94 @@ while True:
                 # - Check for win condition:
                 if P1[0] == 1 and P1[1] == 1 and P1[2] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[3] == 1 and P1[4] == 1 and P1[5] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[6] == 1 and P1[7] == 1 and P1[8] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[0] == 1 and P1[3] == 1 and P1[6] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[1] == 1 and P1[4] == 1 and P1[7] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[2] == 1 and P1[5] == 1 and P1[8] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[0] == 1 and P1[4] == 1 and P1[8] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 elif P1[2] == 1 and P1[4] == 1 and P1[6] == 1:
                     game_active = 0
-                    feedback    = 2
-                    player_1.rewardAndUpdate(feedback)
-                    feedback    = -1
-                    player_2.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_1.process_reward(feedback)
+                    feedback    = 0
+                    player_2.process_reward(feedback)
                     if commentary == 1:
                         printTable(P1,P2,Free)
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 else:
-                    feedback = moves*0.3 
-                    player_1.rewardAndUpdate(feedback)
+                    feedback = 1
+                    player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
             else:
                 # -- NOT free place feedback:
-                feedback = - 1 + moves*0.2
-                player_1.rewardAndUpdate(feedback)
+                feedback = 0
+                player_1.process_reward(feedback)
                 game_active = 0
             player_to_move = 2
             
@@ -280,7 +281,8 @@ while True:
                     el+=1
                 n = 0
                 while n < think_before_move:
-                    player_2.getInputAndPropagate(input_move)
+                    player_2.get_input(input_move)
+                    player_2.propagate_signal()
                     n+=1
                 # - Get the output:
                 output_place = player_2.returnOutputPlace()
@@ -294,10 +296,10 @@ while True:
             if P2[0] == 1 and P2[1] == 1 and P2[2] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -305,10 +307,10 @@ while True:
             elif P2[3] == 1 and P2[4] == 1 and P2[5] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -316,10 +318,10 @@ while True:
             elif P2[6] == 1 and P2[7] == 1 and P2[8] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -327,10 +329,10 @@ while True:
             elif P2[0] == 1 and P2[3] == 1 and P2[6] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -338,10 +340,10 @@ while True:
             elif P2[1] == 1 and P2[4] == 1 and P2[7] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -349,10 +351,10 @@ while True:
             elif P2[2] == 1 and P2[5] == 1 and P2[8] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -360,10 +362,10 @@ while True:
             elif P2[0] == 1 and P2[4] == 1 and P2[8] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
@@ -371,26 +373,26 @@ while True:
             elif P2[2] == 1 and P2[4] == 1 and P2[6] == 1:
                 game_active = 0
                 if bot == 1:
-                    feedback    = 2
-                    player_2.rewardAndUpdate(feedback)
-                feedback    = -1
-                player_1.rewardAndUpdate(feedback)
+                    feedback    = 1
+                    player_2.process_reward(feedback)
+                feedback    = 0
+                player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
                     print("Player 2 WON !!!")
             else:
                 if bot == 1:
-                    feedback = moves*0.3 
-                    player_2.rewardAndUpdate(feedback)
+                    feedback = 1
+                    player_2.process_reward(feedback)
             if commentary == 1:
                 printTable(P1,P2,Free)
                 time.sleep(sleep_time)
         else:
             # -- NOT free place feedback:
             if bot == 1:
-                feedback = - 0.8 + moves*0.2
-                player_2.rewardAndUpdate(feedback)
+                feedback = 0
+                player_2.process_reward(feedback)
             game_active = 0
             
         player_to_move = 1

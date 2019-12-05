@@ -28,9 +28,9 @@ class Cell:
         self.active_perm_number = 0
         # TODO: automate the resistance assignment:
         if self.cell_type == 1:
-            self.resistance = 50
+            self.resistance = 10
         elif self.cell_type == 2:
-            self.resistance = 10                  
+            self.resistance = 3                 
         self.min_PF = 0.01
         self.max_PF = 0.99
         # - Make the list for the corresponding PF for each permutation (0<PF<1):
