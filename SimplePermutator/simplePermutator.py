@@ -1,5 +1,6 @@
 import numpy as np
 import random, time
+import utils
 
 
 ##############
@@ -21,6 +22,10 @@ class Cell:
         self.cell_connections_numb = cell_connections_numb
         self.cell_connections = cell_connections
         self.inputs    = [False]*self.cell_connections_numb
+        self.active_perm_number = 0
+        self.resistance = 10                          # !!!!!!!!!!!!!!!! using hardcoded resistance, need to change it TODO
+        self.min_PF = 0.01
+        self.max_PF = 0.99
         # - Make the list for the corresponding PF for each permutation (0<PF<1):
         self.PF_list = np.random.random(2**self.cell_connections_numb)
         # - Make the list of all input permutations (manual for now):
@@ -38,20 +43,31 @@ class Cell:
         self.inputs = bool_inputs
 
     def process_input(self):
-        pass # self.firedBool as a func of self.inputs
         # - Compare the input with the permutations and get its place:
         for i in range(2**self.cell_connections_numb):
             if self.inputs == self.permutations[i]:
                 self.PF = self.PF_list[i]
-        # - Fire or not with probability PF[i]:
-        rand_int = random.randint(0,100)/100
+                # remember the ith place:
+                self.active_perm_number = i
+        # - Fire or not with probability PF[i] between 0.01 and 0.99:
+        rand_int = random.randint(1,99)/100
         if self.PF > rand_int:
             self.firedBool = True
         else:
             self.firedBool = False
 
     def process_reward(self,reward):
-        print("Reward received!", reward)
+        # - change the PF related to the self.active_perm_number using the Natural Weight Equation:
+        if self.firedBool == True:
+            old_value = self.PF_list[self.active_perm_number]
+            new_value = reward
+            resistance = self.resistance
+            self.PF_list[self.active_perm_number] = utils.movingAverage(old_value, new_value, resistance)
+            # - Make sure value is within the limits:
+            if self.PF_list[self.active_perm_number] < self.min_PF:
+                self.PF_list[self.active_perm_number] = self.min_PF
+            elif self.PF_list[self.active_perm_number] > self.max_PF:
+                self.PF_list[self.active_perm_number] = self.max_PF
 
     def __repr__(self):
         return "Type {} cell. Fired: {}".format(self.cell_type, self.firedBool)
