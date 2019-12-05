@@ -100,7 +100,7 @@ class SimplePermutator():
                     for k in range(self.hidden_size):
                         temp_connections.append(random.randint(0,self.hidden_size-1))
                 temp_hidden_cells_list.append(Cell(cell_type=1, cell_connections = temp_connections))
-                print(temp_hidden_cells_list[j].cell_connections)
+                print("Hidden connections:", temp_hidden_cells_list[j].cell_connections)
             self.hidden_cells.append(temp_hidden_cells_list)
 
         # -- Populate the output cells:
@@ -110,12 +110,12 @@ class SimplePermutator():
                 for k in range(self.input_size):
                     temp_connections.append(random.randint(0,self.input_size-1))
                 self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-                print(self.output_cells[i].cell_connections)
+                print("Output connections:", self.output_cells[i].cell_connections)
             else:
                 for k in range(self.hidden_size):
                     temp_connections.append(random.randint(0,self.hidden_size-1))
                 self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-                print(self.output_cells[i].cell_connections)
+                print("Output connections:", self.output_cells[i].cell_connections)
 
         i = i # supress anoying problem popup that i is not used!
         j = j
