@@ -100,6 +100,7 @@ class SimplePermutator():
         self.hidden_count = hidden_count
         self.output_size  = output_size
         self.cell_connections_numb = 3
+        self.life = 0
 
         # - Create the cell lists:
         self.input_cells  = []
@@ -151,6 +152,7 @@ class SimplePermutator():
     # - read_output_state
     # - read_output_prob
     # - process_reward
+    # - increase_life
 
     def get_input(self, bool_vector):
         if len(bool_vector) != self.input_size:
@@ -222,6 +224,9 @@ class SimplePermutator():
                 self.hidden_cells[i][j].process_reward(reward)
         for i in range(self.output_size):
             self.output_cells[i].process_reward(reward)
+
+    def increase_life(self):
+        self.life = self.life + 1
     # END METHODS
     #############
 
