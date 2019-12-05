@@ -1,5 +1,5 @@
 import numpy as np
-import random
+import random, time
 
 
 ##############
@@ -17,6 +17,7 @@ class Cell:
                 cell_connections_numb = 3):
         self.cell_type = cell_type # 0=input, 1=hidden, 2=output
         self.firedBool = False
+        self.PF        = 0
         self.cell_connections_numb = cell_connections_numb
         self.cell_connections = cell_connections
         self.inputs    = [False]*self.cell_connections_numb
@@ -41,13 +42,16 @@ class Cell:
         # - Compare the input with the permutations and get its place:
         for i in range(2**self.cell_connections_numb):
             if self.inputs == self.permutations[i]:
-                input_perm_place = i
+                self.PF = self.PF_list[i]
         # - Fire or not with probability PF[i]:
         rand_int = random.randint(0,100)/100
-        if self.PF_list[i] > rand_int:
+        if self.PF > rand_int:
             self.firedBool = True
         else:
             self.firedBool = False
+
+    def process_reward(self,reward):
+        print("Reward received!", reward)
 
     def __repr__(self):
         return "Type {} cell. Fired: {}".format(self.cell_type, self.firedBool)
@@ -93,33 +97,27 @@ class SimplePermutator():
                 temp_connections = []
                 # - if first layer:
                 if i == 0:
-                    for k in range(self.input_size):
+                    for k in range(self.cell_connections_numb):
                         temp_connections.append(random.randint(0,self.input_size-1))
                 # - for other layers:
                 else:
-                    for k in range(self.hidden_size):
+                    for k in range(self.cell_connections_numb):
                         temp_connections.append(random.randint(0,self.hidden_size-1))
                 temp_hidden_cells_list.append(Cell(cell_type=1, cell_connections = temp_connections))
-                print("Hidden connections:", temp_hidden_cells_list[j].cell_connections)
             self.hidden_cells.append(temp_hidden_cells_list)
 
         # -- Populate the output cells:
         for i in range(self.output_size):
             temp_connections = []
             if self.hidden_count == 0:
-                for k in range(self.input_size):
+                for k in range(self.cell_connections_numb):
                     temp_connections.append(random.randint(0,self.input_size-1))
                 self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-                print("Output connections:", self.output_cells[i].cell_connections)
             else:
-                for k in range(self.hidden_size):
+                for k in range(self.cell_connections_numb):
                     temp_connections.append(random.randint(0,self.hidden_size-1))
                 self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
-                print("Output connections:", self.output_cells[i].cell_connections)
 
-        i = i # supress anoying problem popup that i is not used!
-        j = j
-        k = k
     # END INIT
     ##########
 
@@ -151,26 +149,59 @@ class SimplePermutator():
         # -- propagate hidden cells:
         for i in range(self.hidden_count):
             for j in range(self.hidden_size):
-                bool_inputs = [True, False, True]
+                # -- prepare the cell input:
+                # --- read the cell.cell_connections into temp_connections
+                temp_connections = self.hidden_cells[i][j].cell_connections
+                # --- Read the previous cells.fireBools at places temp_connections:
+                bool_inputs = []
+                if i == 0: # then we are reading fron the input cells
+                    for k in range(self.cell_connections_numb):
+                        bool_inputs.append(self.input_cells[ temp_connections[k] ].firedBool)
+                else: # others read from i-1th hidden layer
+                    for k in range(self.cell_connections_numb):
+                        bool_inputs.append(self.hidden_cells[i-1][ temp_connections[k] ].firedBool)
                 # -- cell.get_input:
                 self.hidden_cells[i][j].get_input(bool_inputs)
                 # -- cell.process_input:
                 self.hidden_cells[i][j].process_input()
         # -- propagate output cells:
         for i in range(self.output_size):
+            # -- prepare the cell input:
+            # --- read the cell.cell_connections into temp_connections:
+            temp_connections = self.output_cells[i].cell_connections
+            # --- Read the previous cells.fireBools at places temp_connections:
+            bool_inputs = []
+            if self.hidden_count == 0:
+                for k in range(self.cell_connections_numb):
+                    bool_inputs.append(self.input_cells[ temp_connections[k] ].firedBool)
+            else:
+                for k in range(self.cell_connections_numb):
+                    bool_inputs.append(self.hidden_cells[-1][ temp_connections[k] ].firedBool)
             # -- cell.get_input:
             self.output_cells[i].get_input(bool_inputs)
             # -- cell.process_input:
             self.output_cells[i].process_input()
                 
     def read_output_state(self):
-        pass
-    
+        output_state = []
+        for i in range(self.output_size):
+            output_state.append(self.output_cells[i].firedBool)
+        return output_state
+        
     def read_output_prob(self):
-        pass
+        output_prob = []
+        for i in range(self.output_size):
+            output_prob.append(self.output_cells[i].PF)
+        return output_prob
 
     def process_reward(self, reward):
-        pass
+        # - Run cell.process_reward for every cell
+        # -- Hiddencells:
+        for i in range(self.hidden_count):
+            for j in range(self.hidden_size):
+                self.hidden_cells[i][j].process_reward(reward)
+        for i in range(self.output_size):
+            self.output_cells[i].process_reward(reward)
     # END METHODS
     #############
 
