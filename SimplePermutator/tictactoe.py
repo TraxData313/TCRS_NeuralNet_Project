@@ -14,8 +14,8 @@ commentary        = int(controlsList[1]) # 1=on / 0=off
 
 # Parameters:
 number_of_players = 2
-hidden_size       = 10
-hidden_count      = 2
+hidden_size       = 30
+hidden_count      = 1
 #dendrite_resist   = 10
 think_before_move = 1
 reset_cell_values = 0
@@ -245,13 +245,15 @@ while True:
                         time.sleep(sleep_time)
                         print("Player 1 WON !!!")
                 else:
-                    feedback = 1
+                    feedback = 0.75
                     player_1.process_reward(feedback)
                 if commentary == 1:
                     printTable(P1,P2,Free)
                     time.sleep(sleep_time)
             else:
                 # -- NOT free place feedback:
+                if commentary == 1:
+                    print("- P1, Wrong move!")
                 feedback = 0
                 player_1.process_reward(feedback)
                 game_active = 0
@@ -383,7 +385,7 @@ while True:
                     print("Player 2 WON !!!")
             else:
                 if bot == 1:
-                    feedback = 1
+                    feedback = 0.75
                     player_2.process_reward(feedback)
             if commentary == 1:
                 printTable(P1,P2,Free)
@@ -391,6 +393,8 @@ while True:
         else:
             # -- NOT free place feedback:
             if bot == 1:
+                if commentary == 1:
+                    print("- P1, Wrong move!")
                 feedback = 0
                 player_2.process_reward(feedback)
             game_active = 0

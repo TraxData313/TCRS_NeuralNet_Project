@@ -29,9 +29,9 @@ class Cell:
         self.active_perm_number = 0
         # TODO: automate the resistance assignment:
         if self.cell_type == 1:
-            self.resistance = 100
+            self.resistance = 20
         elif self.cell_type == 2:
-            self.resistance = 10
+            self.resistance = 5
         self.min_PF = 0.01
         self.max_PF = 0.99
         # - Make the list for the corresponding PF for each permutation (0<PF<1):
@@ -99,7 +99,7 @@ class SimplePermutator():
         self.hidden_size  = hidden_size
         self.hidden_count = hidden_count
         self.output_size  = output_size
-        self.cell_connections_numb = 11
+        self.cell_connections_numb = 7
         self.life = 0
 
         # - Create the cell lists:
