@@ -14,8 +14,8 @@ commentary        = int(controlsList[1]) # 1=on / 0=off
 
 # Parameters:
 number_of_players = 2
-hidden_size       = 5
-hidden_count      = 1
+hidden_size       = 10
+hidden_count      = 2
 #dendrite_resist   = 10
 think_before_move = 1
 reset_cell_values = 0

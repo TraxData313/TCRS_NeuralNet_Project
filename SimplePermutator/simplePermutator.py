@@ -1,6 +1,7 @@
 import numpy as np
 import random, time
 import utils
+from bool_permutations import bool_permutations
 
 
 
@@ -28,23 +29,16 @@ class Cell:
         self.active_perm_number = 0
         # TODO: automate the resistance assignment:
         if self.cell_type == 1:
-            self.resistance = 10
+            self.resistance = 100
         elif self.cell_type == 2:
-            self.resistance = 3                 
+            self.resistance = 10
         self.min_PF = 0.01
         self.max_PF = 0.99
         # - Make the list for the corresponding PF for each permutation (0<PF<1):
         self.PF_list = np.random.random(2**self.cell_connections_numb)
         # - Make the list of all input permutations (manual for now):
-        self.permutations = []
-        self.permutations.append([True,True,True])
-        self.permutations.append([True,True,False])
-        self.permutations.append([True,False,False])
-        self.permutations.append([True,False,True])
-        self.permutations.append([False,True,True])
-        self.permutations.append([False,True,False])
-        self.permutations.append([False,False,False])
-        self.permutations.append([False,False,True])
+        if self.cell_type != 0:
+            self.permutations = bool_permutations(self.cell_connections_numb)
 
     def get_input(self, bool_inputs):
         self.inputs = bool_inputs
@@ -105,7 +99,7 @@ class SimplePermutator():
         self.hidden_size  = hidden_size
         self.hidden_count = hidden_count
         self.output_size  = output_size
-        self.cell_connections_numb = 3
+        self.cell_connections_numb = 11
         self.life = 0
 
         # - Create the cell lists:
@@ -130,7 +124,7 @@ class SimplePermutator():
                 else:
                     for k in range(self.cell_connections_numb):
                         temp_connections.append(random.randint(0,self.hidden_size-1))
-                temp_hidden_cells_list.append(Cell(cell_type=1, cell_connections = temp_connections))
+                temp_hidden_cells_list.append(Cell(cell_type=1, cell_connections=temp_connections, cell_connections_numb=self.cell_connections_numb))
             self.hidden_cells.append(temp_hidden_cells_list)
 
         # -- Populate the output cells:
@@ -139,11 +133,11 @@ class SimplePermutator():
             if self.hidden_count == 0:
                 for k in range(self.cell_connections_numb):
                     temp_connections.append(random.randint(0,self.input_size-1))
-                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
+                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections, cell_connections_numb=self.cell_connections_numb))
             else:
                 for k in range(self.cell_connections_numb):
                     temp_connections.append(random.randint(0,self.hidden_size-1))
-                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections))
+                self.output_cells.append(Cell(cell_type=2, cell_connections = temp_connections, cell_connections_numb=self.cell_connections_numb))
     # END INIT
     ##########
 

@@ -60,5 +60,4 @@ while True:
     # - Wait:
     print()
     print()
-    time.sleep(1)
-
+    time.sleep(0.1)
