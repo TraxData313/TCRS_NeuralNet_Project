@@ -1,5 +1,5 @@
 ## The problem:
-- Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines, but yet every NN only successfully exists as a simulation in a CC.
+- Neural Networks (NNs) and Conventional Computers (CCs) are separate types of Input/Output Machines, but NNs only successfully exists as a simulation in a CC.
 - Most of the research today is concentrated on optimizing NNs to be a better fit for CCs, or making CCs a better host for NNs.
 
 ## The Research Goal:
